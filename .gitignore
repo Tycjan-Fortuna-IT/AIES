@@ -1,0 +1,25 @@
+# Binaries
+**/bin/
+**/bin-int/
+**.dll
+**.lib
+**.pdb
+**.exp
+**.exe
+
+# Visual Studio files and folder
+.vs/
+**.sln
+**.vcxproj
+**.vcxproj.filters
+**.vcxproj.user
+**.csproj
+
+# Log
+**.log
+
+# VS Code
+.vscode
+
+# Linux
+Makefile
