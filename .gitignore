@@ -23,3 +23,6 @@
 
 # Linux
 Makefile
+
+# premake files
+!/vendor/premake/*
