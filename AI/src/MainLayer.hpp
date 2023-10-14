@@ -22,5 +22,8 @@ namespace ImgProc {
 
         bool OnKeyPressed(Core::KeyPressedEvent& event);
         bool OnMouseKeyPressed(Core::MouseButtonPressedEvent& event);
+
+        void BeginDockspace(const char* name) const;
+        void EndDockspace() const;
     };
 }
