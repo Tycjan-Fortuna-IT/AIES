@@ -24,10 +24,6 @@ If the repository was previously cloned non-recursively, use `git submodule upda
 
 #### **Strict Adherence Required**: It is paramount to strictly adhere to the following naming conventions for our C++ codebase. In order to uphold the highest standards of code consistency and readability, we have a zero-tolerance policy for deviations from these conventions. Reviews will not be accepted if they contain incorrect formatting.
 
-### **Strict Development Guidelines and Naming Conventions**
-
-In our C++ codebase, adhering to stringent development guidelines and naming conventions is of utmost importance. We maintain these standards to ensure impeccable code consistency and readability. Deviations from these conventions are strictly prohibited, and we enforce a zero-tolerance policy for non-compliance. Please be aware that any code submissions not meeting these guidelines will not be accepted for review.
-
 #### Code Formatting
 1. **Indentation**: Use a consistent indentation style of 4 spaces for each level of indentation. Do not use tabs for indentation.
 
