@@ -4,7 +4,7 @@
 #include "Platform/GUI/Core/Events/KeyEvent.hpp"
 #include "Platform/GUI/Core/Events/MouseEvent.hpp"
 
-namespace ImgProc {
+namespace AI {
     class MainLayer final : public Core::Layer {
     public:
 

@@ -9,7 +9,7 @@
 #include "Platform/GUI/Core/OpenGL/OpenGlRendererAPI.hpp"
 #include "Platform/GUI/Core/UI/Color.hpp"
 
-namespace ImgProc {
+namespace AI {
     MainLayer::MainLayer(const std::string& name)
         : Layer(name) {}
 
@@ -38,7 +38,7 @@ namespace ImgProc {
     void MainLayer::OnGuiRender() {
         Core::Application::Get().GetWindow().RegisterOverTitlebar(false);
 
-        ImGui::ShowDemoWindow();
+        // ImGui::ShowDemoWindow();
 
         BeginDockspace("MyDockSpace");
         {
@@ -64,24 +64,13 @@ namespace ImgProc {
                         ImVec2 region = ImGui::GetContentRegionMax();
                         ImVec2 buttonSize = { region.y * 1.7f, region.y };
 
-                        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, { 0.0f, 0.0f });
-                        ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { 0.0f, 0.0f });
-                        ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 0.0f);
-                        ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.0f);
-                        ImGui::PushStyleColor(ImGuiCol_Button, Core::Color::Black);
-
-                        ImGui::PopStyleVar(4);
-                        ImGui::PopStyleColor();
-
                         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, windowPadding);
-
                         if (ImGui::BeginMenu("File")) {
                             if (ImGui::MenuItem("Exit"))
                                 Core::Application::Get().Close();
 
                             ImGui::EndMenu();
                         }
-
                         ImGui::PopStyleVar();
 
                         ImVec2 windowGrabAreaStart = ImGui::GetCursorPos();
@@ -99,10 +88,17 @@ namespace ImgProc {
             }
             ImGui::PopStyleVar(2);
 
-            ImGui::Begin("Puzzle Controller");
+            ImGui::Begin("Puzzle Preview");
 
             ImGui::End();
 
+            ImGui::Begin("Controls");
+
+            ImGui::End();
+
+            ImGui::Begin("Trace output");
+
+            ImGui::End();
 
             Core::Application::Get().GetGuiLayer()->SetBlockEvents(false);
         }
@@ -143,9 +139,9 @@ namespace ImgProc {
             window_flags |= ImGuiWindowFlags_NoBackground;
 
         // Important: note that we proceed even if Begin() returns false (aka window is collapsed).
-        // This is because we want to keep our DockSpace() active. If a DockSpace() is inactive, 
+        // This is because we want to keep our DockSpace() active. If a DockSpace() is inactive,
         // all active windows docked into it will lose their parent and become un-docked.
-        // We cannot preserve the docking relationship between an active window and an inactive docking, otherwise 
+        // We cannot preserve the docking relationship between an active window and an inactive docking, otherwise
         // any change of dock-space/settings would lead to windows being stuck in limbo and never being visible.
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
         ImGui::Begin("DockSpace Demo", &dockspaceOpen, window_flags);

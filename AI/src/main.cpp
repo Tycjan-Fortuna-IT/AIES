@@ -4,7 +4,7 @@
 #include "Engine/Core/Entrypoint.hpp"
 #include "Engine/Core/Application.hpp"
 
-namespace ImgProc {
+namespace AI {
     class AIApplication final : public Core::Application {
     public:
 
@@ -14,7 +14,7 @@ namespace ImgProc {
         }
 
         ~AIApplication() override {
-            
+
         }
     };
 }
@@ -26,5 +26,5 @@ Core::Application* Core::CreateApplication([[maybe_unused]] int argc, [[maybe_un
     specification.Width = 1280;
     specification.Height = 720;
 
-    return new ImgProc::AIApplication(specification);
+    return new AI::AIApplication(specification);
 }
