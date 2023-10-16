@@ -39,7 +39,7 @@ namespace AI {
     std::pair<uint32_t, uint32_t> Board::GetEmptyPuzzlePosition() const {
         FOR_EACH_PUZZLE {
             if (m_Puzzles[x][y].IsEmpty())
-                return { x, y };
+                return { y, x };
         }
 
         APP_ERROR("There is no empty puzzle! Board is not valid!");
@@ -99,8 +99,26 @@ namespace AI {
             case MoveDirection::RIGHT: dx = 1; break;
         }
 
+        //APP_TRACE("Moving in direction {}, empty puzzle position: {}, {}",
+        //    direction, GetEmptyPuzzlePosition().first, GetEmptyPuzzlePosition().second);
+
+        //APP_ERROR("DX {}, DY {}", dx, dy);
+
+        //APP_ERROR("ISEMPTY: {}", m_Puzzles[y + dy][x + dx].IsEmpty());
+        //APP_ERROR("VAlue: {}", m_Puzzles[y + dy][x + dx].GetValue());
+        //LogDisplay();
+
+        //APP_ERROR("EMPTY: {}, {}", GetEmptyPuzzlePosition().first, GetEmptyPuzzlePosition().second);
+
         m_Puzzles[y][x] = m_Puzzles[y + dy][x + dx];
         m_Puzzles[y + dy][x + dx] = 0;
+        //APP_ERROR("ISEMPTY: {}", m_Puzzles[y][x].IsEmpty());
+        //APP_ERROR("VAlue: {}", m_Puzzles[y + dy][x + dx].GetValue());
+
+        //LogDisplay();
+        ////APP_CRITICAL("EMPTY: {}, {}", GetEmptyPuzzlePosition().first, GetEmptyPuzzlePosition().second);
+        //APP_TRACE("Empty puzzle position: {}, {}",
+        //    GetEmptyPuzzlePosition().first, GetEmptyPuzzlePosition().second);
     }
 
     void Board::LogDisplay() const {
