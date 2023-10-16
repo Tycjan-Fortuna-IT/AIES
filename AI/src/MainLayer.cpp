@@ -71,7 +71,6 @@ namespace AI {
 
     void MainLayer::OnGuiRender() {
         Core::Application::Get().GetWindow().RegisterOverTitlebar(false);
-        return;
         // ImGui::ShowDemoWindow();
 
         BeginDockspace("MyDockSpace");
