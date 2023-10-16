@@ -7,7 +7,7 @@
 #include "imgui_internal.h"
 #include "Platform/GUI/Core/GUIApplication.hpp"
 #include "Platform/GUI/Core/OpenGL/OpenGlRendererAPI.hpp"
-#include "Platform/GUI/Core/UI/Color.hpp"
+#include "Puzzle/Board.hpp"
 
 namespace AI {
     MainLayer::MainLayer(const std::string& name)
@@ -17,6 +17,30 @@ namespace AI {
         Core::OpenGlRendererAPI::Init();
 
         Core::Application::Get().GetGuiLayer()->SetBlockEvents(false);
+
+        // Testing stuff
+        Board board(2, 2);
+
+        /*board.SetPuzzle(0, 0, 1);
+        board.SetPuzzle(1, 0, 2);
+        board.SetPuzzle(0, 1, 3);
+        board.SetPuzzle(1, 1, 0);*/
+        board.SetPuzzle(0, 1);
+        board.SetPuzzle(1, 2);
+        board.SetPuzzle(2, 3);
+        board.SetPuzzle(3, 0);
+
+        board.Move(MoveDirection::UP);
+
+        board.LogDisplay();
+
+        CORE_INFO("Board is solved: {0}", board.IsSolved());
+
+        CORE_INFO("Empty puzzle position: {0}, {1}", board.GetEmptyPuzzlePosition().first, board.GetEmptyPuzzlePosition().second);
+        CORE_INFO("Board at [0][0]: {0}", board.GetPuzzle(0, 0).GetValue());
+        CORE_INFO("Board at [0][1]: {0}", board.GetPuzzle(0, 1).GetValue());
+        CORE_INFO("Board at [1][0]: {0}", board.GetPuzzle(1, 0).GetValue());
+        CORE_INFO("Board at [1][1]: {0}", board.GetPuzzle(1, 1).GetValue());
     }
 
     void MainLayer::OnDetach() {
@@ -36,6 +60,7 @@ namespace AI {
     }
 
     void MainLayer::OnGuiRender() {
+        return;
         Core::Application::Get().GetWindow().RegisterOverTitlebar(false);
 
         // ImGui::ShowDemoWindow();

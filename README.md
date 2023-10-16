@@ -82,7 +82,7 @@ int ab();
 bool ef();
 ```
 
-5. **Line Length**: Limit lines to a maximum of 80-120 characters to ensure readability. If a line exceeds this limit, break it into multiple lines and use appropriate indentation.
+5. **Line Length**: Limit lines to ensure readability. If a line exceeds this limit, break it into multiple lines and use appropriate indentation.
 
 ```cpp
 // Good
