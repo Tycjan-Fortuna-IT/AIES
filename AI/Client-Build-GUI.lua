@@ -52,7 +52,10 @@ project "AI"
 
     }
 
-    postbuildcommands {}
+    postbuildcommands {
+		'{COPY} "assets" "%{cfg.targetdir}"/assets',
+		'{COPY} "imgui.ini" "%{cfg.targetdir}"',
+	}
 
     filter "system:windows"
         systemversion "latest"

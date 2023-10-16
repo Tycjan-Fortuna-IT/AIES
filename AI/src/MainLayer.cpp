@@ -5,9 +5,11 @@
 
 #include "imgui.h"
 #include "imgui_internal.h"
+#include "Engine/Core/Utils/StringUtils.hpp"
 #include "Platform/GUI/Core/GUIApplication.hpp"
 #include "Platform/GUI/Core/OpenGL/OpenGlRendererAPI.hpp"
 #include "Puzzle/Board.hpp"
+#include "Platform/GUI/Core/UI/EditorTheme.hpp"
 
 namespace AI {
     MainLayer::MainLayer(const std::string& name)
@@ -15,6 +17,10 @@ namespace AI {
 
     void MainLayer::OnAttach() {
         Core::OpenGlRendererAPI::Init();
+
+        Core::EditorTheme::SetFont();
+        Core::EditorTheme::SetStyle();
+        Core::EditorTheme::ApplyTheme();
 
         Core::Application::Get().GetGuiLayer()->SetBlockEvents(false);
 
@@ -60,7 +66,6 @@ namespace AI {
     }
 
     void MainLayer::OnGuiRender() {
-        return;
         Core::Application::Get().GetWindow().RegisterOverTitlebar(false);
 
         // ImGui::ShowDemoWindow();
@@ -89,13 +94,32 @@ namespace AI {
                         ImVec2 region = ImGui::GetContentRegionMax();
                         ImVec2 buttonSize = { region.y * 1.7f, region.y };
 
+                        bool isNormalCursor = ImGui::GetMouseCursor() == ImGuiMouseCursor_Arrow;
+
+                        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, { 0.0f, 0.0f });
+                        ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { 0.0f, 0.0f });
+                        ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 0.0f);
+                        ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.0f);
+                        ImGui::PushStyleColor(ImGuiCol_Button, { 0.0f, 0.0f, 0.0f, 0.0f });
+
+                        if (ImGui::Button(Core::StringUtils::FromChar8T(ICON_MDI_NUKE), buttonSize) && isNormalCursor) {}
+
+                        ImGui::PopStyleVar(4);
+                        ImGui::PopStyleColor();
+
                         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, windowPadding);
+
                         if (ImGui::BeginMenu("File")) {
+                            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, Core::EditorTheme::PopupItemSpacing);
+
+                            ImGui::Separator();
                             if (ImGui::MenuItem("Exit"))
                                 Core::Application::Get().Close();
 
+                            ImGui::PopStyleVar();
                             ImGui::EndMenu();
                         }
+
                         ImGui::PopStyleVar();
 
                         ImVec2 windowGrabAreaStart = ImGui::GetCursorPos();
@@ -103,6 +127,42 @@ namespace AI {
                         ImGui::InvisibleButton("TitlebarGrab1", { buttonStartRegion - windowGrabAreaStart.x, frameHeight + windowPadding.y });
                         if (ImGui::IsItemHovered())
                             Core::Application::Get().GetWindow().RegisterOverTitlebar(true);
+
+#ifdef CORE_PLATFORM_WINDOWS
+                        // Minimize/Maximize/Close buttons
+                        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, { 0.0f, 0.0f });
+                        ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { 0.0f, 0.0f });
+                        ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 0.0f);
+                        ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.0f);
+                        ImGui::PushStyleColor(ImGuiCol_Button, { 0.0f, 0.0f, 0.0f, 0.0f });
+
+                        ImGui::SetCursorPosX(buttonStartRegion);
+
+                        // Minimize Button
+                        if (ImGui::Button(Core::StringUtils::FromChar8T(ICON_MDI_MINUS), buttonSize) && isNormalCursor) {
+                            Core::Application::Get().GetWindow().Minimize();
+                        }
+
+                        // Maximize Button
+                        if (ImGui::Button(Core::StringUtils::FromChar8T(ICON_MDI_WINDOW_MAXIMIZE), buttonSize) && isNormalCursor)
+                        {
+                            Core::Window& window = Core::Application::Get().GetWindow();
+                            if (window.IsMaximized())
+                                window.Restore();
+                            else
+                                window.Maximize();
+                        }
+
+                        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 0.909f, 0.066f, 0.137f, 1.0f });
+                        ImGui::PushStyleColor(ImGuiCol_ButtonActive, { 0.920f, 0.066f, 0.120f, 1.0f });
+                        // Close Button
+                        if (ImGui::Button(Core::StringUtils::FromChar8T(ICON_MDI_WINDOW_CLOSE), buttonSize) && isNormalCursor)
+                            Core::Application::Get().Close();
+                        ImGui::PopStyleColor(2);
+
+                        ImGui::PopStyleColor();
+                        ImGui::PopStyleVar(4);
+#endif
 
                         ImGui::EndMenuBar();
                     }
@@ -113,15 +173,15 @@ namespace AI {
             }
             ImGui::PopStyleVar(2);
 
-            ImGui::Begin("Puzzle Preview");
+            ImGui::Begin("Puzzle preview");
 
             ImGui::End();
 
-            ImGui::Begin("Controls");
+            ImGui::Begin("Controller");
 
             ImGui::End();
 
-            ImGui::Begin("Trace output");
+            ImGui::Begin("Console trace");
 
             ImGui::End();
 
