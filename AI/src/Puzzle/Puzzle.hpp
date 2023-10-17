@@ -21,6 +21,6 @@ namespace AI {
 
     private:
 
-        uint32_t m_Value;
+        uint32_t m_Value{ 0 };
     };
 }

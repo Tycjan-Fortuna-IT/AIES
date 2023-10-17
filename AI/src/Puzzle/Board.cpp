@@ -21,7 +21,7 @@ namespace AI {
 
         // Create a new array of puzzles for each column
         FOR_EACH_COLUMN {
-            m_Puzzles[x] = new Puzzle[width];
+            m_Puzzles[x] = new Puzzle[height];
         }
     }
 
@@ -31,9 +31,9 @@ namespace AI {
                 return m_Puzzles[x][y];
         }
 
-        CORE_ERROR("There is no empty puzzle! Board is not valid!");
+        APP_CRITICAL("There is no empty puzzle! Board is not valid!");
 
-        return Puzzle(0);
+        return Puzzle();
     }
 
     std::pair<uint32_t, uint32_t> Board::GetEmptyPuzzlePosition() const {
@@ -42,7 +42,7 @@ namespace AI {
                 return { y, x };
         }
 
-        APP_ERROR("There is no empty puzzle! Board is not valid!");
+        APP_CRITICAL("There is no empty puzzle! Board is not valid!");
 
         return { 0, 0 };
     }

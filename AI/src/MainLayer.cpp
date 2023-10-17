@@ -24,8 +24,9 @@ namespace AI {
 
         Core::Application::Get().GetGuiLayer()->SetBlockEvents(false);
 
-        //// Testing stuff
-        //Board board(2, 2);
+        // Testing stuff
+        // Board board(2, 4);
+        // board.LogDisplay();
 
         ///*board.SetPuzzle(0, 0, 1);
         //board.SetPuzzle(1, 0, 2);
