@@ -5,9 +5,11 @@
 
 #include "imgui.h"
 #include "imgui_internal.h"
+#include "Engine/Core/Utils/StringUtils.hpp"
 #include "Platform/GUI/Core/GUIApplication.hpp"
 #include "Platform/GUI/Core/OpenGL/OpenGlRendererAPI.hpp"
-#include "Platform/GUI/Core/UI/Color.hpp"
+#include "Puzzle/Board.hpp"
+#include "Platform/GUI/Core/UI/Theme.hpp"
 
 namespace AI {
     MainLayer::MainLayer(const std::string& name)
@@ -16,7 +18,40 @@ namespace AI {
     void MainLayer::OnAttach() {
         Core::OpenGlRendererAPI::Init();
 
+        Core::Theme::SetFont();
+        Core::Theme::SetStyle();
+        Core::Theme::ApplyTheme();
+
         Core::Application::Get().GetGuiLayer()->SetBlockEvents(false);
+
+        // Testing stuff
+        // Board board(2, 4);
+        // board.LogDisplay();
+
+        ///*board.SetPuzzle(0, 0, 1);
+        //board.SetPuzzle(1, 0, 2);
+        //board.SetPuzzle(0, 1, 3);
+        //board.SetPuzzle(1, 1, 0);*/
+        //board.SetPuzzle(0, 1);
+        //board.SetPuzzle(1, 2);
+        //board.SetPuzzle(2, 3);
+        //board.SetPuzzle(3, 0);
+
+        //board.Move(MoveDirection::UP);
+        //board.Move(MoveDirection::DOWN);
+        //board.Move(MoveDirection::LEFT);
+        //board.Move(MoveDirection::RIGHT);
+        //board.Move(MoveDirection::LEFT);
+
+        //board.LogDisplay();
+
+        //CORE_INFO("Board is solved: {0}", board.IsSolved());
+
+        //CORE_INFO("Empty puzzle position: {0}, {1}", board.GetEmptyPuzzlePosition().first, board.GetEmptyPuzzlePosition().second);
+        //CORE_INFO("Board at [0][0]: {0}", board.GetPuzzle(0, 0).GetValue());
+        //CORE_INFO("Board at [0][1]: {0}", board.GetPuzzle(0, 1).GetValue());
+        //CORE_INFO("Board at [1][0]: {0}", board.GetPuzzle(1, 0).GetValue());
+        //CORE_INFO("Board at [1][1]: {0}", board.GetPuzzle(1, 1).GetValue());
     }
 
     void MainLayer::OnDetach() {
@@ -37,7 +72,6 @@ namespace AI {
 
     void MainLayer::OnGuiRender() {
         Core::Application::Get().GetWindow().RegisterOverTitlebar(false);
-
         // ImGui::ShowDemoWindow();
 
         BeginDockspace("MyDockSpace");
@@ -64,13 +98,40 @@ namespace AI {
                         ImVec2 region = ImGui::GetContentRegionMax();
                         ImVec2 buttonSize = { region.y * 1.7f, region.y };
 
+                        bool isNormalCursor = ImGui::GetMouseCursor() == ImGuiMouseCursor_Arrow;
+
+                        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, { 0.0f, 0.0f });
+                        ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { 0.0f, 0.0f });
+                        ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 0.0f);
+                        ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.0f);
+                        ImGui::PushStyleColor(ImGuiCol_Button, { 0.0f, 0.0f, 0.0f, 0.0f });
+
+                        if (ImGui::Button(Core::StringUtils::FromChar8T(ICON_MDI_NUKE), buttonSize) && isNormalCursor) {}
+
+                        ImGui::PopStyleVar(4);
+                        ImGui::PopStyleColor();
+
                         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, windowPadding);
+
                         if (ImGui::BeginMenu("File")) {
+                            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, Core::Theme::PopupItemSpacing);
+
+                            if (ImGui::MenuItem("Load Board")) {
+
+                            }
+
+                            if (ImGui::MenuItem("Save Board")) {
+
+                            }
+
+                            ImGui::Separator();
                             if (ImGui::MenuItem("Exit"))
                                 Core::Application::Get().Close();
 
+                            ImGui::PopStyleVar();
                             ImGui::EndMenu();
                         }
+
                         ImGui::PopStyleVar();
 
                         ImVec2 windowGrabAreaStart = ImGui::GetCursorPos();
@@ -78,6 +139,42 @@ namespace AI {
                         ImGui::InvisibleButton("TitlebarGrab1", { buttonStartRegion - windowGrabAreaStart.x, frameHeight + windowPadding.y });
                         if (ImGui::IsItemHovered())
                             Core::Application::Get().GetWindow().RegisterOverTitlebar(true);
+
+#ifdef CORE_PLATFORM_WINDOWS
+                        // Minimize/Maximize/Close buttons
+                        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, { 0.0f, 0.0f });
+                        ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { 0.0f, 0.0f });
+                        ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 0.0f);
+                        ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.0f);
+                        ImGui::PushStyleColor(ImGuiCol_Button, { 0.0f, 0.0f, 0.0f, 0.0f });
+
+                        ImGui::SetCursorPosX(buttonStartRegion);
+
+                        // Minimize Button
+                        if (ImGui::Button(Core::StringUtils::FromChar8T(ICON_MDI_MINUS), buttonSize) && isNormalCursor) {
+                            Core::Application::Get().GetWindow().Minimize();
+                        }
+
+                        // Maximize Button
+                        if (ImGui::Button(Core::StringUtils::FromChar8T(ICON_MDI_WINDOW_MAXIMIZE), buttonSize) && isNormalCursor)
+                        {
+                            Core::Window& window = Core::Application::Get().GetWindow();
+                            if (window.IsMaximized())
+                                window.Restore();
+                            else
+                                window.Maximize();
+                        }
+
+                        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 0.909f, 0.066f, 0.137f, 1.0f });
+                        ImGui::PushStyleColor(ImGuiCol_ButtonActive, { 0.920f, 0.066f, 0.120f, 1.0f });
+                        // Close Button
+                        if (ImGui::Button(Core::StringUtils::FromChar8T(ICON_MDI_WINDOW_CLOSE), buttonSize) && isNormalCursor)
+                            Core::Application::Get().Close();
+                        ImGui::PopStyleColor(2);
+
+                        ImGui::PopStyleColor();
+                        ImGui::PopStyleVar(4);
+#endif
 
                         ImGui::EndMenuBar();
                     }
@@ -88,15 +185,63 @@ namespace AI {
             }
             ImGui::PopStyleVar(2);
 
-            ImGui::Begin("Puzzle Preview");
+            ImGui::Begin("Puzzle preview");
+
+#if 0 // WORK IN PROGRESS DO NOT TOUCH, DO NOT INLCUDE IN THE REVIEW - TEMPOARY CODE
+            const int puzzleWidth = 2;
+            const int puzzleHeight = 4;
+            static const int puzzleBoard[puzzleWidth][puzzleHeight] = {
+                {1, 2, 3, 4},
+                {5, 6, 7, 8},
+                //{9, 10, 11, 12},
+                //{13, 14, 15, 0}
+            };
+
+            static ImU32 lightOrange = IM_COL32(255, 200, 100, 255);
+            static ImU32 black = IM_COL32(0, 0, 0, 255);
+            static ImU32 lightGray = IM_COL32(240, 240, 240, 255);
+            static ImU32 lightBlue = IM_COL32(100, 100, 255, 255);
+
+
+            ImGui::PushStyleColor(ImGuiCol_WindowBg, lightGray);
+
+            for (int row = 0; row < puzzleWidth; ++row) {
+                for (int col = 0; col < puzzleHeight; ++col) {
+                    int pieceValue = puzzleBoard[row][col];
+
+                    float margin = 5.0f;
+                    float posX = col * (600.0f / 4.0f + margin);
+                    float posY = row * (600.0f / 4.0f + margin) + 40.f;
+
+                    ImGui::PushStyleColor(ImGuiCol_Button, pieceValue == 0 ? lightBlue : lightOrange);
+                    ImGui::PushStyleColor(ImGuiCol_Text, black);
+                    ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 12.0f);
+
+                    ImGui::SetCursorPos(ImVec2(posX, posY));
+
+                    {
+                        //ScopedFont bigFont(ImGui::GetIO().Fonts->Fonts[2]);
+                        ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
+                        if (ImGui::Button(std::to_string(pieceValue).c_str(), ImVec2(600.0f / 4.0f, 600.0f / 4.0f))) {
+
+                        }
+                        ImGui::PopStyleVar();
+                    }
+
+                    ImGui::PopStyleColor(2);
+                    ImGui::PopStyleVar();
+                }
+            }
+
+            ImGui::PopStyleColor();
+#endif
+            ImGui::End();
+
+            ImGui::Begin("Controller");
 
             ImGui::End();
 
-            ImGui::Begin("Controls");
-
-            ImGui::End();
-
-            ImGui::Begin("Trace output");
+            ImGui::Begin("Console trace");
 
             ImGui::End();
 

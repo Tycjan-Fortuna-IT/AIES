@@ -27,15 +27,17 @@ namespace AI {
         std::pair<uint32_t, uint32_t> GetEmptyPuzzlePosition() const;
 
         Puzzle GetPuzzle(uint32_t x, uint32_t y) const;
-        Puzzle GetPuzzle(int index) const;
+        Puzzle GetPuzzle(uint32_t index) const;
 
         void SetPuzzle(uint32_t x, uint32_t y, uint32_t val);
-        void SetPuzzle(int index, uint32_t val);
+        void SetPuzzle(uint32_t index, uint32_t val);
 
         Puzzle** GetPuzzles() const { return m_Puzzles; }
 
         bool CanMove(MoveDirection direction) const;
         void Move(MoveDirection direction);
+
+        void LogDisplay() const;
 
         bool IsSolved() const;
 
