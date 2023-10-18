@@ -168,7 +168,7 @@ namespace AI {
         }
 
         FOR_EACH_PUZZLE {
-            if (m_Puzzles[x][y] != other.GetPuzzles()[x][y])
+            if (m_Puzzles[x][y].GetValue() != other.GetPuzzles()[x][y].GetValue())
                 return false;
         }
 

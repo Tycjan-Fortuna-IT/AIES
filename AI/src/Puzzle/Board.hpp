@@ -53,3 +53,23 @@ namespace AI {
         Puzzle** m_Puzzles{ nullptr };
     };
 }
+
+namespace std {
+    template<>
+    struct hash<AI::Board> {
+        size_t operator()(const AI::Board& board) const noexcept {
+            size_t hash = 0;
+
+            const int width = board.GetWidth();
+            const int height = board.GetHeight();
+
+            for (int i = 0; i < width; ++i) {
+                for (int j = 0; j < height; ++j) {
+                    hash = (hash * 31) ^ std::hash<int>{}(board.GetPuzzle(i, j).GetValue());
+                }
+            }
+
+            return hash;
+        }
+    };
+}

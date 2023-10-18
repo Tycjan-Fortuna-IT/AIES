@@ -10,6 +10,8 @@
 #include "Platform/GUI/Core/OpenGL/OpenGlRendererAPI.hpp"
 #include "Puzzle/Board.hpp"
 #include "Platform/GUI/Core/UI/Theme.hpp"
+#include "Platform/GUI/Core/UI/UI.hpp"
+#include "Puzzle/BFS.hpp"
 
 namespace AI {
     MainLayer::MainLayer(const std::string& name)
@@ -24,9 +26,38 @@ namespace AI {
 
         Core::Application::Get().GetGuiLayer()->SetBlockEvents(false);
 
+        // 1 2 3 4
+        // 5 6 7 0
+        // 9 10 11 8
+        // 13 14 15 12
+
         // Testing stuff
-        // Board board(2, 4);
-        // board.LogDisplay();
+        Board board(4, 4);
+
+        board.SetPuzzle(0, 0, 1);
+        board.SetPuzzle(1, 0, 2);
+        board.SetPuzzle(2, 0, 3);
+        board.SetPuzzle(3, 0, 4);
+        board.SetPuzzle(0, 1, 5);
+        board.SetPuzzle(1, 1, 6);
+        board.SetPuzzle(2, 1, 7);
+        board.SetPuzzle(3, 1, 0);
+        board.SetPuzzle(0, 2, 9);
+        board.SetPuzzle(1, 2, 10);
+        board.SetPuzzle(2, 2, 11);
+        board.SetPuzzle(3, 2, 8);
+        board.SetPuzzle(0, 3, 13);
+        board.SetPuzzle(1, 3, 14);
+        board.SetPuzzle(2, 3, 15);
+        board.SetPuzzle(3, 3, 12);
+
+        Solver* solver = new BFS(&board);
+
+        solver->GetBoard()->LogDisplay();
+        solver->Solve("RD7UL");
+        solver->GetBoard()->LogDisplay();
+
+        delete solver;
 
         ///*board.SetPuzzle(0, 0, 1);
         //board.SetPuzzle(1, 0, 2);
@@ -220,7 +251,7 @@ namespace AI {
                     ImGui::SetCursorPos(ImVec2(posX, posY));
 
                     {
-                        //ScopedFont bigFont(ImGui::GetIO().Fonts->Fonts[2]);
+                        //Core::ScopedFont bigFont(ImGui::GetIO().Fonts->Fonts[2]);
                         ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
                         if (ImGui::Button(std::to_string(pieceValue).c_str(), ImVec2(600.0f / 4.0f, 600.0f / 4.0f))) {
 
