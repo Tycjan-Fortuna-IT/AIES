@@ -45,3 +45,4 @@ workspace "AI"
 
     include "Core/Core-Build-GUI.lua"
     include "AI/Client-Build-GUI.lua"
+    include "Test/Test-Case-Build.lua"

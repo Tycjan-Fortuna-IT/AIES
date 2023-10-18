@@ -6,13 +6,13 @@ namespace AI {
     class PuzzleGUIManager final {
     public:
 
-        PuzzleGUIManager(const Board& board);
+        PuzzleGUIManager(Board* board);
         ~PuzzleGUIManager() = default;
 
         void OnRender();
 
     private:
 
-        Board m_Board;
+        Board* m_Board;
     };
 }

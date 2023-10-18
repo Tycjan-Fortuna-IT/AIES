@@ -1,6 +1,8 @@
 #include "pch.hpp"
 #include "Board.hpp"
 
+#include <iostream>
+
 #include "Engine/Core/Debug/Logger.hpp"
 
 namespace AI {
@@ -24,7 +26,7 @@ namespace AI {
     std::pair<uint32_t, uint32_t> Board::GetEmptyPuzzlePosition() const {
         FOR_EACH_PUZZLE {
             if (m_Puzzles[x][y].IsEmpty())
-                return { y, x };
+                return { x, y };
         }
 
         APP_CRITICAL("There is no empty puzzle! Board is not valid!");
@@ -35,25 +37,19 @@ namespace AI {
     Puzzle Board::GetPuzzle(uint32_t x, uint32_t y) const {
         ASSERT(x < m_Width && y < m_Height, "Invalid puzzle position!")
 
-        return m_Puzzles[x][y];
+            return m_Puzzles[x][y];
     }
 
     Puzzle Board::GetPuzzle(uint32_t index) const {
         ASSERT(index < m_Width * m_Height, "Invalid puzzle position!")
 
-        return m_Puzzles[index % m_Height][index / m_Width];
+            return m_Puzzles[index % m_Height][index / m_Width];
     }
 
     void Board::SetPuzzle(uint32_t x, uint32_t y, uint32_t val) {
         ASSERT(x < m_Width && y < m_Height, "Invalid puzzle position!")
 
-        m_Puzzles[y][x] = val;
-    }
-
-    void Board::SetPuzzle(uint32_t index, uint32_t val) {
-        ASSERT(index < m_Width * m_Height, "Invalid puzzle position!")
-
-        m_Puzzles[index / m_Width][index % m_Height] = val;
+            m_Puzzles[x][y] = val;
     }
 
     bool Board::CanMove(MoveDirection direction) const {
@@ -73,7 +69,7 @@ namespace AI {
         ASSERT(CanMove(direction), "Can't move in this direction {}, empty puzzle position: {}, {}",
             direction, GetEmptyPuzzlePosition().first, GetEmptyPuzzlePosition().second)
 
-        auto [x, y] = GetEmptyPuzzlePosition();
+            auto [x, y] = GetEmptyPuzzlePosition();
 
         int dx = 0, dy = 0;
 
@@ -84,18 +80,21 @@ namespace AI {
             case MoveDirection::RIGHT: dx = 1; break;
         }
 
-        m_Puzzles[y][x] = m_Puzzles[y + dy][x + dx];
-        m_Puzzles[y + dy][x + dx] = 0;
+        m_Puzzles[x][y] = m_Puzzles[x + dx][y + dy];
+        m_Puzzles[x + dx][y + dy] = 0;
     }
 
     void Board::LogDisplay() const {
         std::stringstream ss;
 
-        FOR_EACH_PUZZLE {
-            ss << m_Puzzles[x][y].GetValue() << " ";
-                if (y == m_Height - 1) {
-                    ss << "\n";
+        for (uint32_t y = 0; y < m_Height; ++y) {
+            std::string row;
+
+            for (uint32_t x = 0; x < m_Width; ++x) {
+                row += std::to_string(m_Puzzles[x][y].GetValue()) + " ";
             }
+
+            ss << row << "\n";
         }
 
         APP_INFO("Board:\n{0}", ss.str());
@@ -108,9 +107,16 @@ namespace AI {
         // 9 10 11 12
         // 13 14 15 0
 
-        for (uint32_t i = 0; i < m_Width * m_Height - 1; ++i) {
-            if (m_Puzzles[i / m_Width][i % m_Height].GetValue() != i + 1)
+        FOR_EACH_PUZZLE{
+            if (
+                m_Puzzles[x][y].GetValue() != 0 &&
+                (
+                    m_Puzzles[x][y].GetValue() != y * m_Width + x + 1 ||
+                    (x == m_Width - 1 && y == m_Height - 1)
+                )
+            ) {
                 return false;
+            }
         }
 
         return true;
@@ -129,12 +135,12 @@ namespace AI {
         return MoveDirection::DOWN;
     }
 
-    bool Board::operator==(const Board &other) const {
+    bool Board::operator==(const Board& other) const {
         if (m_Width != other.GetWidth() || m_Height != other.GetHeight()) {
             return false;
         }
 
-        FOR_EACH_PUZZLE {
+        FOR_EACH_PUZZLE{
             if (m_Puzzles[x][y].GetValue() != other.GetPuzzle(x, y).GetValue())
                 return false;
         }

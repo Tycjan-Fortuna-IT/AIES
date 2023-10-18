@@ -7,7 +7,7 @@
 #include "imgui_internal.h"
 
 namespace AI {
-    PuzzleGUIManager::PuzzleGUIManager(const Board& board)
+    PuzzleGUIManager::PuzzleGUIManager(Board* board)
         : m_Board(board) {
 
     }
@@ -20,17 +20,17 @@ namespace AI {
         static const ImU32 lightGray = IM_COL32(240, 240, 240, 255);
         static const ImU32 lightBlue = IM_COL32(100, 100, 255, 255);
 
-        static const uint32_t w = m_Board.GetWidth();
-        static const uint32_t h = m_Board.GetHeight();
+        static const uint32_t w = m_Board->GetWidth();
+        static const uint32_t h = m_Board->GetHeight();
 
         ImGui::PushStyleColor(ImGuiCol_WindowBg, lightGray);
 
         FOR_EACH_PUZZLE_W_H(w, h) {
-            int pieceValue = m_Board.GetPuzzle(x, y).GetValue();
+            int pieceValue = m_Board->GetPuzzle(x, y).GetValue();
 
             float margin = 5.0f;
-            float posX = y * (600.0f / 4.0f + margin); // Swap x and y
-            float posY = x * (600.0f / 4.0f + margin) + 40.f;
+            float posX = x * (600.0f / 4.0f + margin); // Swap x and y
+            float posY = y * (600.0f / 4.0f + margin) + 40.f;
 
             ImGui::PushStyleColor(ImGuiCol_Button, pieceValue == 0 ? lightBlue : lightOrange);
             ImGui::PushStyleColor(ImGuiCol_Text, black);

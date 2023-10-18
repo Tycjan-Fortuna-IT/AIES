@@ -32,28 +32,28 @@ namespace AI {
         // 13 14 15 12
 
         // Testing stuff
-        Board board(4, 4);
+        m_Board = new Board(4, 4);
 
-        board.SetPuzzle(0, 0, 1);
-        board.SetPuzzle(1, 0, 2);
-        board.SetPuzzle(2, 0, 3);
-        board.SetPuzzle(3, 0, 4);
-        board.SetPuzzle(0, 1, 5);
-        board.SetPuzzle(1, 1, 6);
-        board.SetPuzzle(2, 1, 7);
-        board.SetPuzzle(3, 1, 0);
-        board.SetPuzzle(0, 2, 9);
-        board.SetPuzzle(1, 2, 10);
-        board.SetPuzzle(2, 2, 11);
-        board.SetPuzzle(3, 2, 8);
-        board.SetPuzzle(0, 3, 13);
-        board.SetPuzzle(1, 3, 14);
-        board.SetPuzzle(2, 3, 15);
-        board.SetPuzzle(3, 3, 12);
+        m_Board->SetPuzzle(0, 0, 1);
+        m_Board->SetPuzzle(1, 0, 2);
+        m_Board->SetPuzzle(2, 0, 3);
+        m_Board->SetPuzzle(3, 0, 4);
+        m_Board->SetPuzzle(0, 1, 5);
+        m_Board->SetPuzzle(1, 1, 6);
+        m_Board->SetPuzzle(2, 1, 7);
+        m_Board->SetPuzzle(3, 1, 0);
+        m_Board->SetPuzzle(0, 2, 9);
+        m_Board->SetPuzzle(1, 2, 10);
+        m_Board->SetPuzzle(2, 2, 11);
+        m_Board->SetPuzzle(3, 2, 8);
+        m_Board->SetPuzzle(0, 3, 13);
+        m_Board->SetPuzzle(1, 3, 14);
+        m_Board->SetPuzzle(2, 3, 15);
+        m_Board->SetPuzzle(3, 3, 12);
 
-        m_PuzzleGUIManager = new PuzzleGUIManager(board);
+        m_PuzzleGUIManager = new PuzzleGUIManager(m_Board);
 
-        Solver* solver = new BFS(&board);
+        Solver* solver = new BFS(m_Board);
 
         solver->GetBoard()->LogDisplay();
         solver->Solve("DRUL");
@@ -67,6 +67,7 @@ namespace AI {
     }
 
     void MainLayer::OnDetach() {
+        delete m_Board;
         delete m_PuzzleGUIManager;
     }
 
