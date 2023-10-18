@@ -24,6 +24,7 @@ namespace AI {
         Board* GetBoard() const { return m_Board; }
 
         static std::vector<MoveDirection> GetMoveSet(const std::string& permutation);
+        static std::vector<std::string> GetMoveSetChars(const std::vector<MoveDirection> directions);
 
     protected:
 

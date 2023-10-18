@@ -17,12 +17,7 @@ namespace AI {
 
     Board::Board(uint32_t width, uint32_t height)
         : m_Width(width), m_Height(height) {
-        m_Puzzles = new Puzzle*[width];
-
-        // Create a new array of puzzles for each column
-        FOR_EACH_COLUMN {
-            m_Puzzles[x] = new Puzzle[height];
-        }
+        m_Puzzles = std::vector<std::vector<Puzzle>>(width, std::vector<Puzzle>(height));
     }
 
     Puzzle Board::GetEmptyPuzzle() const {
@@ -99,26 +94,8 @@ namespace AI {
             case MoveDirection::RIGHT: dx = 1; break;
         }
 
-        //APP_TRACE("Moving in direction {}, empty puzzle position: {}, {}",
-        //    direction, GetEmptyPuzzlePosition().first, GetEmptyPuzzlePosition().second);
-
-        //APP_ERROR("DX {}, DY {}", dx, dy);
-
-        //APP_ERROR("ISEMPTY: {}", m_Puzzles[y + dy][x + dx].IsEmpty());
-        //APP_ERROR("VAlue: {}", m_Puzzles[y + dy][x + dx].GetValue());
-        //LogDisplay();
-
-        //APP_ERROR("EMPTY: {}, {}", GetEmptyPuzzlePosition().first, GetEmptyPuzzlePosition().second);
-
         m_Puzzles[y][x] = m_Puzzles[y + dy][x + dx];
         m_Puzzles[y + dy][x + dx] = 0;
-        //APP_ERROR("ISEMPTY: {}", m_Puzzles[y][x].IsEmpty());
-        //APP_ERROR("VAlue: {}", m_Puzzles[y + dy][x + dx].GetValue());
-
-        //LogDisplay();
-        ////APP_CRITICAL("EMPTY: {}, {}", GetEmptyPuzzlePosition().first, GetEmptyPuzzlePosition().second);
-        //APP_TRACE("Empty puzzle position: {}, {}",
-        //    GetEmptyPuzzlePosition().first, GetEmptyPuzzlePosition().second);
     }
 
     void Board::LogDisplay() const {
@@ -131,7 +108,7 @@ namespace AI {
             }
         }
 
-        CORE_INFO("Board:\n{0}", ss.str());
+        APP_INFO("Board:\n{0}", ss.str());
     }
 
     bool Board::IsSolved() const {
@@ -168,7 +145,7 @@ namespace AI {
         }
 
         FOR_EACH_PUZZLE {
-            if (m_Puzzles[x][y].GetValue() != other.GetPuzzles()[x][y].GetValue())
+            if (m_Puzzles[x][y].GetValue() != other.GetPuzzle(x, y).GetValue())
                 return false;
         }
 

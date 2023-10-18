@@ -54,35 +54,14 @@ namespace AI {
         Solver* solver = new BFS(&board);
 
         solver->GetBoard()->LogDisplay();
-        solver->Solve("RD7UL");
+        solver->Solve("DRUL");
         solver->GetBoard()->LogDisplay();
 
+        for (const std::string& move : Solver::GetMoveSetChars(solver->GetSolution().moves)) {
+            APP_ERROR(move);
+        }
+
         delete solver;
-
-        ///*board.SetPuzzle(0, 0, 1);
-        //board.SetPuzzle(1, 0, 2);
-        //board.SetPuzzle(0, 1, 3);
-        //board.SetPuzzle(1, 1, 0);*/
-        //board.SetPuzzle(0, 1);
-        //board.SetPuzzle(1, 2);
-        //board.SetPuzzle(2, 3);
-        //board.SetPuzzle(3, 0);
-
-        //board.Move(MoveDirection::UP);
-        //board.Move(MoveDirection::DOWN);
-        //board.Move(MoveDirection::LEFT);
-        //board.Move(MoveDirection::RIGHT);
-        //board.Move(MoveDirection::LEFT);
-
-        //board.LogDisplay();
-
-        //CORE_INFO("Board is solved: {0}", board.IsSolved());
-
-        //CORE_INFO("Empty puzzle position: {0}, {1}", board.GetEmptyPuzzlePosition().first, board.GetEmptyPuzzlePosition().second);
-        //CORE_INFO("Board at [0][0]: {0}", board.GetPuzzle(0, 0).GetValue());
-        //CORE_INFO("Board at [0][1]: {0}", board.GetPuzzle(0, 1).GetValue());
-        //CORE_INFO("Board at [1][0]: {0}", board.GetPuzzle(1, 0).GetValue());
-        //CORE_INFO("Board at [1][1]: {0}", board.GetPuzzle(1, 1).GetValue());
     }
 
     void MainLayer::OnDetach() {

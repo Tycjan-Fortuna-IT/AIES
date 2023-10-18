@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <utility>
+#include <vector>
 
 #include "Puzzle.hpp"
 
@@ -32,7 +33,7 @@ namespace AI {
         void SetPuzzle(uint32_t x, uint32_t y, uint32_t val);
         void SetPuzzle(uint32_t index, uint32_t val);
 
-        Puzzle** GetPuzzles() const { return m_Puzzles; }
+        const std::vector<std::vector<Puzzle>>& GetPuzzles() const { return m_Puzzles; }
 
         bool CanMove(MoveDirection direction) const;
         void Move(MoveDirection direction);
@@ -49,8 +50,7 @@ namespace AI {
         uint32_t m_Width;
         uint32_t m_Height;
 
-        // Pointer to an n sized array of pointers to Puzzles
-        Puzzle** m_Puzzles{ nullptr };
+        std::vector<std::vector<Puzzle>> m_Puzzles{};
     };
 }
 

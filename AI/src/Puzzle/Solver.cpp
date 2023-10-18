@@ -19,4 +19,19 @@ namespace AI {
 
         return directions;
     }
+
+    std::vector<std::string> Solver::GetMoveSetChars(const std::vector<MoveDirection> directions) {
+        std::vector<std::string> moves;
+
+        for (MoveDirection move : directions) {
+            switch (move) {
+                case MoveDirection::UP: moves.push_back("U"); break;
+                case MoveDirection::DOWN: moves.push_back("D"); break;
+                case MoveDirection::LEFT: moves.push_back("L"); break;
+                case MoveDirection::RIGHT: moves.push_back("R"); break;
+            }
+        }
+
+        return moves;
+    }
 }
