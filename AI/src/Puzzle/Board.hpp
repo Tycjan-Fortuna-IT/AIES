@@ -6,6 +6,20 @@
 
 #include "Puzzle.hpp"
 
+// width -> x -> column
+// height -> y -> row
+
+// for each column (x) in width
+//    for each row (y) in height
+
+#define FOR_EACH_COLUMN for (uint32_t x = 0; x < m_Width; ++x)
+#define FOR_EACH_ROW for (uint32_t y = 0; y < m_Height; ++y)
+#define FOR_EACH_PUZZLE FOR_EACH_COLUMN FOR_EACH_ROW
+
+#define FOR_EACH_COLUMN_W(w) for (uint32_t x = 0; x < w; ++x)
+#define FOR_EACH_ROW_H(h) for (uint32_t y = 0; y < h; ++y)
+#define FOR_EACH_PUZZLE_W_H(w, h) FOR_EACH_COLUMN_W(w) FOR_EACH_ROW_H(h)
+
 namespace AI {
 
     enum MoveDirection {

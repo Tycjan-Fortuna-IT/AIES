@@ -3,16 +3,6 @@
 
 #include "Engine/Core/Debug/Logger.hpp"
 
-// width -> x -> column
-// height -> y -> row
-
-// for each column (x) in width
-//    for each row (y) in height
-
-#define FOR_EACH_COLUMN for (uint32_t x = 0; x < m_Width; ++x)
-#define FOR_EACH_ROW for (uint32_t y = 0; y < m_Height; ++y)
-#define FOR_EACH_PUZZLE FOR_EACH_COLUMN FOR_EACH_ROW
-
 namespace AI {
 
     Board::Board(uint32_t width, uint32_t height)

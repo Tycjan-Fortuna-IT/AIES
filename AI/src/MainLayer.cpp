@@ -51,6 +51,8 @@ namespace AI {
         board.SetPuzzle(2, 3, 15);
         board.SetPuzzle(3, 3, 12);
 
+        m_PuzzleGUIManager = new PuzzleGUIManager(board);
+
         Solver* solver = new BFS(&board);
 
         solver->GetBoard()->LogDisplay();
@@ -65,7 +67,7 @@ namespace AI {
     }
 
     void MainLayer::OnDetach() {
-
+        delete m_PuzzleGUIManager;
     }
 
     void MainLayer::OnEvent(Core::Event& event) {
@@ -195,57 +197,7 @@ namespace AI {
             }
             ImGui::PopStyleVar(2);
 
-            ImGui::Begin("Puzzle preview");
-
-#if 0 // WORK IN PROGRESS DO NOT TOUCH, DO NOT INLCUDE IN THE REVIEW - TEMPOARY CODE
-            const int puzzleWidth = 2;
-            const int puzzleHeight = 4;
-            static const int puzzleBoard[puzzleWidth][puzzleHeight] = {
-                {1, 2, 3, 4},
-                {5, 6, 7, 8},
-                //{9, 10, 11, 12},
-                //{13, 14, 15, 0}
-            };
-
-            static ImU32 lightOrange = IM_COL32(255, 200, 100, 255);
-            static ImU32 black = IM_COL32(0, 0, 0, 255);
-            static ImU32 lightGray = IM_COL32(240, 240, 240, 255);
-            static ImU32 lightBlue = IM_COL32(100, 100, 255, 255);
-
-
-            ImGui::PushStyleColor(ImGuiCol_WindowBg, lightGray);
-
-            for (int row = 0; row < puzzleWidth; ++row) {
-                for (int col = 0; col < puzzleHeight; ++col) {
-                    int pieceValue = puzzleBoard[row][col];
-
-                    float margin = 5.0f;
-                    float posX = col * (600.0f / 4.0f + margin);
-                    float posY = row * (600.0f / 4.0f + margin) + 40.f;
-
-                    ImGui::PushStyleColor(ImGuiCol_Button, pieceValue == 0 ? lightBlue : lightOrange);
-                    ImGui::PushStyleColor(ImGuiCol_Text, black);
-                    ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 12.0f);
-
-                    ImGui::SetCursorPos(ImVec2(posX, posY));
-
-                    {
-                        //Core::ScopedFont bigFont(ImGui::GetIO().Fonts->Fonts[2]);
-                        ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
-                        if (ImGui::Button(std::to_string(pieceValue).c_str(), ImVec2(600.0f / 4.0f, 600.0f / 4.0f))) {
-
-                        }
-                        ImGui::PopStyleVar();
-                    }
-
-                    ImGui::PopStyleColor(2);
-                    ImGui::PopStyleVar();
-                }
-            }
-
-            ImGui::PopStyleColor();
-#endif
-            ImGui::End();
+            m_PuzzleGUIManager->OnRender();
 
             ImGui::Begin("Controller");
 
