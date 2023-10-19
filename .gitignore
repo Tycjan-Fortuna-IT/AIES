@@ -21,6 +21,10 @@
 # VS Code
 .vscode
 
+# Assets
+assets
+imgui.ini
+
 # Linux
 Makefile
 

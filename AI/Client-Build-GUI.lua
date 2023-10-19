@@ -46,6 +46,10 @@ project "AI"
 
     links {
         "Core",
+        "GLFW",
+        "GLAD",
+        "spdlog",
+        "ImGui",
     }
 
     libdirs {
