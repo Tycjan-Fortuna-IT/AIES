@@ -12,6 +12,7 @@
 #include "Platform/GUI/Core/UI/Theme.hpp"
 #include "Platform/GUI/Core/UI/UI.hpp"
 #include "Puzzle/BFS.hpp"
+#include "Puzzle/DFS.hpp"
 
 namespace AI {
     MainLayer::MainLayer(const std::string& name)
@@ -64,7 +65,7 @@ namespace AI {
             //m_ConsolePanel->AddMessage("Critical", Core::LogLevel::Critical);
         //});
 
-        Solver* solver = new BFS(m_Board);
+        Solver* solver = new DFS(m_Board);
 
         solver->GetBoard()->LogDisplay();
         solver->Solve("DRUL");

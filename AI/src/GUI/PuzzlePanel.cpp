@@ -61,7 +61,7 @@ namespace AI {
                 ImGui::InputInt("New value", &newValue);
 
                 if (ImGui::Button("OK", ImVec2(120, 0))) {
-                    if (newValue < 0 || newValue > 15) {
+                    if (newValue < 0) {
                         APP_ERROR("Invalid value! Value must be greater or equal 0");
                         ImGui::CloseCurrentPopup();
                     } else {

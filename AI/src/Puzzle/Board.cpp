@@ -116,7 +116,7 @@ namespace AI {
         return true;
     }
 
-    MoveDirection Board::GetOpositeDirection(MoveDirection direction) {
+    MoveDirection Board::GetOppositeDirection(MoveDirection direction) {
         switch (direction) {
             case MoveDirection::UP: return MoveDirection::DOWN;
             case MoveDirection::DOWN: return MoveDirection::UP;
