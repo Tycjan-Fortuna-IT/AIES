@@ -5,6 +5,7 @@
 #include <unordered_set>
 
 #include "Engine/Core/Debug/Logger.hpp"
+#include "GUI/Utils.hpp"
 
 namespace AI {
 
@@ -20,15 +21,15 @@ namespace AI {
         : Solver(board) {}
 
     void BFS::Solve(const std::string& param) {
-        APP_TRACE("Solving with BFS, with strategy param: {}", param);
-
         std::vector<MoveDirection> moveSet = Solver::GetMoveSet(param);
 
         std::queue<BFSState> q;
         std::unordered_set<Board> visited;
 
+        auto startTime = std::chrono::steady_clock::now();
+
         if (m_Board->IsSolved()) {
-            APP_WARN("Puzzle is already solved!");
+            CONSOLE_WARN("Puzzle is already solved!");
             return;
         }
 
@@ -38,8 +39,9 @@ namespace AI {
             BFSState currentState = q.front();
             q.pop();
 
+            m_Solution.processed++;
+
             if (currentState.board.IsSolved()) {
-                APP_WARN("SOLVED!!");
                 *m_Board = currentState.board;
                 m_Solution.moves = currentState.moves;
                 break;
@@ -52,13 +54,25 @@ namespace AI {
                     nextState.board.Move(direction);
                     nextState.moves.push_back(direction);
 
-                    if (visited.find(nextState.board) == visited.end()) {
+                    if (!visited.contains(nextState.board)) {
                         q.push(nextState);
                         visited.insert(nextState.board);
+
+                        m_Solution.maxRecursion = std::max(m_Solution.maxRecursion, static_cast<int>(nextState.moves.size()));
                     }
                 }
             }
         }
+
+        m_Solution.visited = (int)visited.size();
+
+        const auto endTimepoint = std::chrono::steady_clock::now();
+        const auto elapsedTime = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch()
+            - std::chrono::time_point_cast<std::chrono::microseconds>(startTime).time_since_epoch();
+
+        CONSOLE_INFO("Solution found! BFS took {} us", elapsedTime.count());
+        CONSOLE_INFO("Solution moves: {}", Solver::GetMoveSetString(m_Solution.moves));
+        CONSOLE_INFO("Visited places: {}, Processed places: {}, Max recursion: {}", m_Solution.visited, m_Solution.processed, m_Solution.maxRecursion);
     }
 
 }
