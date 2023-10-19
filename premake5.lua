@@ -46,3 +46,8 @@ workspace "AI"
     include "Core/Core-Build-GUI.lua"
     include "AI/Client-Build-GUI.lua"
     include "Test/Test-Case-Build.lua"
+
+    -- Cache all files from AI/src/Puzzle to Test/src/cache for build purposes
+    for file in io.popen([[dir "AI\src\Puzzle"]]):lines() do
+        os.execute("xcopy /E /Y \"AI\\src\\Puzzle\\" .. file .. "\" \"Test\\src\\cache\\" .. file .. "\"")
+    end

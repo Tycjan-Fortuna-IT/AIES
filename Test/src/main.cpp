@@ -2,7 +2,7 @@
 #include "cache/Board.hpp"
 
 TEST_INIT()
-    {
+{
     TEST_CASE("Check if board was created correctly and can set every puzzle")
     {
         // 1 2
