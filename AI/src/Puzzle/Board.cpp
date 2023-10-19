@@ -43,7 +43,7 @@ namespace AI {
     void Board::SetPuzzle(uint32_t x, uint32_t y, uint32_t val) {
         ASSERT(x < m_Width && y < m_Height, "Invalid puzzle position!")
 
-            m_Puzzles[x][y] = val;
+        m_Puzzles[x][y] = val;
     }
 
     bool Board::CanMove(MoveDirection direction) const {

@@ -34,4 +34,30 @@ namespace AI {
 
         return moves;
     }
+
+    std::string Solver::GetMoveSetString(const std::vector<MoveDirection>& directions) {
+        std::string moves;
+
+        for (MoveDirection move : directions) {
+            switch (move) {
+                case MoveDirection::UP: moves += "U"; break;
+                case MoveDirection::DOWN: moves += "D"; break;
+                case MoveDirection::LEFT: moves += "L"; break;
+                case MoveDirection::RIGHT: moves += "R"; break;
+            }
+        }
+
+        return moves;
+    }
+
+    std::string Solver::GetStringifiedDirection(MoveDirection direction) {
+        switch (direction) {
+            case MoveDirection::UP: return "U";
+            case MoveDirection::DOWN: return "D";
+            case MoveDirection::LEFT: return "L";
+            case MoveDirection::RIGHT: return "R";
+        }
+
+        return "";
+    }
 }

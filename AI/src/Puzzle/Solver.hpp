@@ -9,6 +9,8 @@ namespace AI {
     struct Solution final {
         std::vector<MoveDirection> moves;
         int visited;
+        int processed;
+        int maxRecursion;
         double duration;
     };
 
@@ -25,6 +27,9 @@ namespace AI {
 
         static std::vector<MoveDirection> GetMoveSet(const std::string& permutation);
         static std::vector<std::string> GetMoveSetChars(const std::vector<MoveDirection> directions);
+
+        static std::string GetMoveSetString(const std::vector<MoveDirection>& directions);
+        static std::string GetStringifiedDirection(MoveDirection direction);
 
     protected:
 
