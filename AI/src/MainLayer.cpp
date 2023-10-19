@@ -55,6 +55,16 @@ namespace AI {
         m_ConsolePanel = new ConsolePanel("Console", ICON_MDI_CONSOLE);
         m_ControlPanel = new ControlsPanel("Controls", ICON_MDI_GAMEPAD);
 
+        //m_ConsolePanel->SetCommandCallback([&](const char* command) {
+            m_ConsolePanel->AddMessage("Trace", Core::LogLevel::Trace);
+            m_ConsolePanel->AddMessage("Info", Core::LogLevel::Info);
+            m_ConsolePanel->AddMessage("Warn", Core::LogLevel::Warn);
+            m_ConsolePanel->AddMessage("Error", Core::LogLevel::Error);
+            m_ConsolePanel->AddMessage("Debug", Core::LogLevel::Debug);
+            m_ConsolePanel->AddMessage("Critical", Core::LogLevel::Critical);
+
+        //});
+
         Solver* solver = new BFS(m_Board);
 
         solver->GetBoard()->LogDisplay();
