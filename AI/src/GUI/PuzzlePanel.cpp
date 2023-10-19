@@ -64,8 +64,7 @@ namespace AI {
                     if (newValue < 0 || newValue > 15) {
                         APP_ERROR("Invalid value! Value must be greater or equal 0");
                         ImGui::CloseCurrentPopup();
-                    }
-                    else {
+                    } else {
                         m_Board->SetPuzzle(m_SelectedPuzzle.first, m_SelectedPuzzle.second, newValue);
                     }
                     ImGui::CloseCurrentPopup();

@@ -53,22 +53,21 @@ namespace AI {
 
         m_PuzzlePanel = new PuzzlePanel("Puzzle Preview", ICON_MDI_GRID, m_Board);
         m_ConsolePanel = new ConsolePanel("Console", ICON_MDI_CONSOLE);
-        m_ControlPanel = new ControlsPanel("Controls", ICON_MDI_GAMEPAD);
+        m_ControlPanel = new ControlPanel("Control", ICON_MDI_GAMEPAD);
 
         //m_ConsolePanel->SetCommandCallback([&](const char* command) {
-            m_ConsolePanel->AddMessage("Trace", Core::LogLevel::Trace);
-            m_ConsolePanel->AddMessage("Info", Core::LogLevel::Info);
-            m_ConsolePanel->AddMessage("Warn", Core::LogLevel::Warn);
-            m_ConsolePanel->AddMessage("Error", Core::LogLevel::Error);
-            m_ConsolePanel->AddMessage("Debug", Core::LogLevel::Debug);
-            m_ConsolePanel->AddMessage("Critical", Core::LogLevel::Critical);
-
+            //m_ConsolePanel->AddMessage("Trace", Core::LogLevel::Trace);
+            //m_ConsolePanel->AddMessage("Info", Core::LogLevel::Info);
+            //m_ConsolePanel->AddMessage("Warn", Core::LogLevel::Warn);
+            //m_ConsolePanel->AddMessage("Error", Core::LogLevel::Error);
+            //m_ConsolePanel->AddMessage("Debug", Core::LogLevel::Debug);
+            //m_ConsolePanel->AddMessage("Critical", Core::LogLevel::Critical);
         //});
 
         Solver* solver = new BFS(m_Board);
 
         solver->GetBoard()->LogDisplay();
-        //solver->Solve("DRUL");
+        solver->Solve("DRUL");
         solver->GetBoard()->LogDisplay();
 
         for (const std::string& move : Solver::GetMoveSetChars(solver->GetSolution().moves)) {

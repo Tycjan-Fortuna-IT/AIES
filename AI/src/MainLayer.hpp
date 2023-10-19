@@ -2,7 +2,7 @@
 
 #include "Engine/Core/Layer.hpp"
 #include "GUI/ConsolePanel.hpp"
-#include "GUI/ControlsPanel.hpp"
+#include "GUI/ControlPanel.hpp"
 #include "Platform/GUI/Core/Events/KeyEvent.hpp"
 #include "Platform/GUI/Core/Events/MouseEvent.hpp"
 #include "GUI/PuzzlePanel.hpp"
@@ -26,7 +26,7 @@ namespace AI {
         Board* m_Board{ nullptr };
         PuzzlePanel* m_PuzzlePanel{ nullptr };
         ConsolePanel* m_ConsolePanel{ nullptr };
-        ControlsPanel* m_ControlPanel{ nullptr };
+        ControlPanel* m_ControlPanel{ nullptr };
 
         bool OnKeyPressed(Core::KeyPressedEvent& event);
         bool OnMouseKeyPressed(Core::MouseButtonPressedEvent& event);
