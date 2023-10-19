@@ -9,9 +9,14 @@
 #include "Platform/GUI/Core/UI/UI.hpp"
 
 namespace AI {
+    ConsolePanel* ConsolePanel::s_Instance = new ConsolePanel("Console", u8"\uF18D");
+
     ConsolePanel::ConsolePanel(const char* name, const char8_t* icon)
         : Panel(name, icon) {
+
+        s_Instance = this;
         m_MessageBuffer = std::vector<std::shared_ptr<Message>>(m_Capacity);
+
     }
 
     void ConsolePanel::OnRender() {
