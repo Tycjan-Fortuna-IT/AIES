@@ -1,8 +1,11 @@
 #pragma once
 
 #include "Engine/Core/Layer.hpp"
+#include "GUI/ConsolePanel.hpp"
+#include "GUI/ControlPanel.hpp"
 #include "Platform/GUI/Core/Events/KeyEvent.hpp"
 #include "Platform/GUI/Core/Events/MouseEvent.hpp"
+#include "GUI/PuzzlePanel.hpp"
 
 namespace AI {
     class MainLayer final : public Core::Layer {
@@ -19,6 +22,11 @@ namespace AI {
     private:
 
         float m_TopMenuBarHeight = 10.0f;
+
+        Board* m_Board{ nullptr };
+        PuzzlePanel* m_PuzzlePanel{ nullptr };
+        ConsolePanel* m_ConsolePanel{ nullptr };
+        ControlPanel* m_ControlPanel{ nullptr };
 
         bool OnKeyPressed(Core::KeyPressedEvent& event);
         bool OnMouseKeyPressed(Core::MouseButtonPressedEvent& event);

@@ -26,3 +26,7 @@ Makefile
 
 # premake files
 !/vendor/premake/*
+
+# Cache files used for testing
+/Test/src/cache/**.hpp
+/Test/src/cache/**.cpp

@@ -10,6 +10,8 @@
 #include "Platform/GUI/Core/OpenGL/OpenGlRendererAPI.hpp"
 #include "Puzzle/Board.hpp"
 #include "Platform/GUI/Core/UI/Theme.hpp"
+#include "Platform/GUI/Core/UI/UI.hpp"
+#include "Puzzle/BFS.hpp"
 
 namespace AI {
     MainLayer::MainLayer(const std::string& name)
@@ -24,38 +26,60 @@ namespace AI {
 
         Core::Application::Get().GetGuiLayer()->SetBlockEvents(false);
 
+        // 1 2 3 4
+        // 5 6 7 0
+        // 9 10 11 8
+        // 13 14 15 12
+
         // Testing stuff
-        // Board board(2, 4);
-        // board.LogDisplay();
+        m_Board = new Board(4, 4);
 
-        ///*board.SetPuzzle(0, 0, 1);
-        //board.SetPuzzle(1, 0, 2);
-        //board.SetPuzzle(0, 1, 3);
-        //board.SetPuzzle(1, 1, 0);*/
-        //board.SetPuzzle(0, 1);
-        //board.SetPuzzle(1, 2);
-        //board.SetPuzzle(2, 3);
-        //board.SetPuzzle(3, 0);
+        m_Board->SetPuzzle(0, 0, 1);
+        m_Board->SetPuzzle(1, 0, 2);
+        m_Board->SetPuzzle(2, 0, 3);
+        m_Board->SetPuzzle(3, 0, 4);
+        m_Board->SetPuzzle(0, 1, 5);
+        m_Board->SetPuzzle(1, 1, 6);
+        m_Board->SetPuzzle(2, 1, 7);
+        m_Board->SetPuzzle(3, 1, 0);
+        m_Board->SetPuzzle(0, 2, 9);
+        m_Board->SetPuzzle(1, 2, 10);
+        m_Board->SetPuzzle(2, 2, 11);
+        m_Board->SetPuzzle(3, 2, 8);
+        m_Board->SetPuzzle(0, 3, 13);
+        m_Board->SetPuzzle(1, 3, 14);
+        m_Board->SetPuzzle(2, 3, 15);
+        m_Board->SetPuzzle(3, 3, 12);
 
-        //board.Move(MoveDirection::UP);
-        //board.Move(MoveDirection::DOWN);
-        //board.Move(MoveDirection::LEFT);
-        //board.Move(MoveDirection::RIGHT);
-        //board.Move(MoveDirection::LEFT);
+        m_PuzzlePanel = new PuzzlePanel("Puzzle Preview", ICON_MDI_GRID, m_Board);
+        m_ConsolePanel = new ConsolePanel("Console", ICON_MDI_CONSOLE);
+        m_ControlPanel = new ControlPanel("Control", ICON_MDI_GAMEPAD);
 
-        //board.LogDisplay();
+        //m_ConsolePanel->SetCommandCallback([&](const char* command) {
+            //m_ConsolePanel->AddMessage("Trace", Core::LogLevel::Trace);
+            //m_ConsolePanel->AddMessage("Info", Core::LogLevel::Info);
+            //m_ConsolePanel->AddMessage("Warn", Core::LogLevel::Warn);
+            //m_ConsolePanel->AddMessage("Error", Core::LogLevel::Error);
+            //m_ConsolePanel->AddMessage("Debug", Core::LogLevel::Debug);
+            //m_ConsolePanel->AddMessage("Critical", Core::LogLevel::Critical);
+        //});
 
-        //CORE_INFO("Board is solved: {0}", board.IsSolved());
+        Solver* solver = new BFS(m_Board);
 
-        //CORE_INFO("Empty puzzle position: {0}, {1}", board.GetEmptyPuzzlePosition().first, board.GetEmptyPuzzlePosition().second);
-        //CORE_INFO("Board at [0][0]: {0}", board.GetPuzzle(0, 0).GetValue());
-        //CORE_INFO("Board at [0][1]: {0}", board.GetPuzzle(0, 1).GetValue());
-        //CORE_INFO("Board at [1][0]: {0}", board.GetPuzzle(1, 0).GetValue());
-        //CORE_INFO("Board at [1][1]: {0}", board.GetPuzzle(1, 1).GetValue());
+        solver->GetBoard()->LogDisplay();
+        solver->Solve("DRUL");
+        solver->GetBoard()->LogDisplay();
+
+        for (const std::string& move : Solver::GetMoveSetChars(solver->GetSolution().moves)) {
+            APP_ERROR(move);
+        }
+
+        delete solver;
     }
 
     void MainLayer::OnDetach() {
-
+        delete m_Board;
+        delete m_PuzzlePanel;
     }
 
     void MainLayer::OnEvent(Core::Event& event) {
@@ -185,65 +209,9 @@ namespace AI {
             }
             ImGui::PopStyleVar(2);
 
-            ImGui::Begin("Puzzle preview");
-
-#if 0 // WORK IN PROGRESS DO NOT TOUCH, DO NOT INLCUDE IN THE REVIEW - TEMPOARY CODE
-            const int puzzleWidth = 2;
-            const int puzzleHeight = 4;
-            static const int puzzleBoard[puzzleWidth][puzzleHeight] = {
-                {1, 2, 3, 4},
-                {5, 6, 7, 8},
-                //{9, 10, 11, 12},
-                //{13, 14, 15, 0}
-            };
-
-            static ImU32 lightOrange = IM_COL32(255, 200, 100, 255);
-            static ImU32 black = IM_COL32(0, 0, 0, 255);
-            static ImU32 lightGray = IM_COL32(240, 240, 240, 255);
-            static ImU32 lightBlue = IM_COL32(100, 100, 255, 255);
-
-
-            ImGui::PushStyleColor(ImGuiCol_WindowBg, lightGray);
-
-            for (int row = 0; row < puzzleWidth; ++row) {
-                for (int col = 0; col < puzzleHeight; ++col) {
-                    int pieceValue = puzzleBoard[row][col];
-
-                    float margin = 5.0f;
-                    float posX = col * (600.0f / 4.0f + margin);
-                    float posY = row * (600.0f / 4.0f + margin) + 40.f;
-
-                    ImGui::PushStyleColor(ImGuiCol_Button, pieceValue == 0 ? lightBlue : lightOrange);
-                    ImGui::PushStyleColor(ImGuiCol_Text, black);
-                    ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 12.0f);
-
-                    ImGui::SetCursorPos(ImVec2(posX, posY));
-
-                    {
-                        //ScopedFont bigFont(ImGui::GetIO().Fonts->Fonts[2]);
-                        ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
-                        if (ImGui::Button(std::to_string(pieceValue).c_str(), ImVec2(600.0f / 4.0f, 600.0f / 4.0f))) {
-
-                        }
-                        ImGui::PopStyleVar();
-                    }
-
-                    ImGui::PopStyleColor(2);
-                    ImGui::PopStyleVar();
-                }
-            }
-
-            ImGui::PopStyleColor();
-#endif
-            ImGui::End();
-
-            ImGui::Begin("Controller");
-
-            ImGui::End();
-
-            ImGui::Begin("Console trace");
-
-            ImGui::End();
+            m_PuzzlePanel->OnRender();
+            m_ConsolePanel->OnRender();
+            m_ControlPanel->OnRender();
 
             Core::Application::Get().GetGuiLayer()->SetBlockEvents(false);
         }
