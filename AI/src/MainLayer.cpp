@@ -51,7 +51,7 @@ namespace AI {
         m_Board->SetPuzzle(2, 3, 15);
         m_Board->SetPuzzle(3, 3, 12);
 
-        m_PuzzleGUIManager = new PuzzleGUIManager(m_Board);
+        m_PuzzlePanel = new PuzzlePanel("Puzzle Preview", ICON_MDI_GRID, m_Board);
 
         Solver* solver = new BFS(m_Board);
 
@@ -68,7 +68,7 @@ namespace AI {
 
     void MainLayer::OnDetach() {
         delete m_Board;
-        delete m_PuzzleGUIManager;
+        delete m_PuzzlePanel;
     }
 
     void MainLayer::OnEvent(Core::Event& event) {
@@ -198,7 +198,7 @@ namespace AI {
             }
             ImGui::PopStyleVar(2);
 
-            m_PuzzleGUIManager->OnRender();
+            m_PuzzlePanel->OnRender();
 
             ImGui::Begin("Controller");
 
