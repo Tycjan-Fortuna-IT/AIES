@@ -5,6 +5,9 @@
 
 #include "imgui.h"
 #include "imgui_internal.h"
+#include "Engine/Core/Debug/Logger.hpp"
+#include "Platform/GUI/Core/UI/Color.hpp"
+#include "Platform/GUI/Core/UI/UI.hpp"
 
 namespace AI {
     PuzzleGUIManager::PuzzleGUIManager(Board* board)
@@ -15,42 +18,64 @@ namespace AI {
     void PuzzleGUIManager::OnRender() {
         ImGui::Begin("Puzzle preview");
 
-        static const ImU32 lightOrange = IM_COL32(255, 200, 100, 255);
-        static const ImU32 black = IM_COL32(0, 0, 0, 255);
-        static const ImU32 lightGray = IM_COL32(240, 240, 240, 255);
-        static const ImU32 lightBlue = IM_COL32(100, 100, 255, 255);
-
         static const uint32_t w = m_Board->GetWidth();
         static const uint32_t h = m_Board->GetHeight();
 
-        ImGui::PushStyleColor(ImGuiCol_WindowBg, lightGray);
+        static const float windowWidth = ImGui::GetWindowWidth();
+        static const float windowHeight = ImGui::GetWindowHeight();
+        static const float size = std::min(windowHeight / h, 600.0f / w); // puzzle size
+        static const float margin = 15.0f;
+
+        const float startX = (windowWidth - (w * size + margin)) / 2.0f;
 
         FOR_EACH_PUZZLE_W_H(w, h) {
-            int pieceValue = m_Board->GetPuzzle(x, y).GetValue();
+            uint32_t value = m_Board->GetPuzzle(x, y).GetValue();
 
-            float margin = 5.0f;
-            float posX = x * (600.0f / 4.0f + margin); // Swap x and y
-            float posY = y * (600.0f / 4.0f + margin) + 40.f;
+            const float posX = startX + x * size + margin;
+            const float posY = y * size + 40.f + margin;
 
-            ImGui::PushStyleColor(ImGuiCol_Button, pieceValue == 0 ? lightBlue : lightOrange);
-            ImGui::PushStyleColor(ImGuiCol_Text, black);
-            ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 12.0f);
+            Core::ScopedColor ButtonColor(ImGuiCol_Button, value == 0 ? Core::Color::LightBlue : Core::Color::BrightOrange);
+            Core::ScopedColor TextColor(ImGuiCol_Text, Core::Color::LightBlack);
 
             ImGui::SetCursorPos(ImVec2(posX, posY));
 
             {
-                ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
-                if (ImGui::Button(std::to_string(pieceValue).c_str(), ImVec2(600.0f / 4.0f, 600.0f / 4.0f))) {
+                Core::ScopedStyle FrameBorderSize(ImGuiStyleVar_FrameBorderSize, 4.0f);
+                Core::ScopedColor BorderColor(ImGuiCol_Border, Core::Color::White);
 
+                if (ImGui::Button(std::to_string(value).c_str(), ImVec2(size, size))) {
+                    m_SelectedPuzzle = { x, y };
+
+                    ImGui::OpenPopup("Change value");
+
+                    APP_INFO("Clicked on puzzle at ({}, {})", x, y);
                 }
-                ImGui::PopStyleVar();
             }
-
-            ImGui::PopStyleColor(2);
-            ImGui::PopStyleVar();
         }
 
-        ImGui::PopStyleColor();
+        if (ImGui::BeginPopup("Change value", ImGuiWindowFlags_AlwaysAutoResize)) {
+            static int32_t newValue = 0;
+
+            ImGui::InputInt("New value", &newValue);
+
+            if (ImGui::Button("OK", ImVec2(120, 0))) {
+                if (newValue < 0 || newValue > 15) {
+                    APP_ERROR("Invalid value! Value must be greater or equal 0");
+                    ImGui::CloseCurrentPopup();
+                } else {
+                    m_Board->SetPuzzle(m_SelectedPuzzle.first, m_SelectedPuzzle.second, newValue);
+                }
+                ImGui::CloseCurrentPopup();
+            }
+
+            ImGui::SameLine();
+
+            if (ImGui::Button("Cancel", ImVec2(120, 0))) {
+                ImGui::CloseCurrentPopup();
+            }
+
+            ImGui::EndPopup();
+        }
 
         ImGui::End();
     }

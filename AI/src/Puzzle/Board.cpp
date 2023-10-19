@@ -37,13 +37,7 @@ namespace AI {
     Puzzle Board::GetPuzzle(uint32_t x, uint32_t y) const {
         ASSERT(x < m_Width && y < m_Height, "Invalid puzzle position!")
 
-            return m_Puzzles[x][y];
-    }
-
-    Puzzle Board::GetPuzzle(uint32_t index) const {
-        ASSERT(index < m_Width * m_Height, "Invalid puzzle position!")
-
-            return m_Puzzles[index % m_Height][index / m_Width];
+        return m_Puzzles[x][y];
     }
 
     void Board::SetPuzzle(uint32_t x, uint32_t y, uint32_t val) {

@@ -56,7 +56,7 @@ namespace AI {
         Solver* solver = new BFS(m_Board);
 
         solver->GetBoard()->LogDisplay();
-        solver->Solve("DRUL");
+        //solver->Solve("DRUL");
         solver->GetBoard()->LogDisplay();
 
         for (const std::string& move : Solver::GetMoveSetChars(solver->GetSolution().moves)) {

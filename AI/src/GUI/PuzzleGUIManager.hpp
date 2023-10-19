@@ -13,6 +13,8 @@ namespace AI {
 
     private:
 
-        Board* m_Board;
+        Board* m_Board{ nullptr };
+
+        std::pair<uint32_t, uint32_t> m_SelectedPuzzle{ 0, 0 };
     };
 }
