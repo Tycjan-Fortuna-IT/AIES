@@ -17,7 +17,7 @@ namespace AI {
         auto startTime = std::chrono::steady_clock::now();
 
         std::function<bool(Board*, int)> DFS = [&](Board* board, int depth) {
-            if (depth > 25)
+            if (depth > 2)
                 return false;
 
             if (depth > m_Solution.maxRecursion)

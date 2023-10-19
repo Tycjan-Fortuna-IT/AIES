@@ -49,10 +49,10 @@ namespace AI {
             } else if (m_Solution.empty()) {
                 static const char* strategies[] = { "BFS", "DFS" };
                 static const char* orders[] = { // All permutations of "LRUD"
-                        "LRUD", "LURD", "LUDR", "RLUD", "RULD", "RUDL",
-                        "ULRD", "ULDR", "URLD", "URDL", "UDLR", "UDRL",
-                        "RLDU", "RDLU", "RULD", "RUDL", "RDUL",
-                        "DRLU", "DRUL", "DLRU", "DLUR", "DURL", "DULR"
+                    "LRUD", "LURD", "LUDR", "RLUD", "RULD", "RUDL",
+                    "ULRD", "ULDR", "URLD", "URDL", "UDLR", "UDRL",
+                    "RLDU", "RDLU", "RULD", "RUDL", "RDUL", "RDLU",
+                    "DRLU", "DRUL", "DLRU", "DLUR", "DURL", "DULR"
                 };
 
                 static int strategy = 0;

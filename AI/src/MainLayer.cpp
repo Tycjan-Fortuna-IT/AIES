@@ -6,12 +6,13 @@
 #include "imgui.h"
 #include "imgui_internal.h"
 #include "Engine/Core/Utils/StringUtils.hpp"
+#include "GUI/Utils.hpp"
 #include "Platform/GUI/Core/GUIApplication.hpp"
 #include "Platform/GUI/Core/OpenGL/OpenGlRendererAPI.hpp"
 #include "Puzzle/Board.hpp"
 #include "Platform/GUI/Core/UI/Theme.hpp"
-#include "Puzzle/BFS.hpp"
-#include "Puzzle/DFS.hpp"
+#include "Platform/GUI/Core/Utils/InputDialog.hpp"
+#include "Puzzle/PuzzleSerializer.hpp"
 
 namespace AI {
     MainLayer::MainLayer(const std::string& name)
@@ -95,7 +96,7 @@ namespace AI {
 
                             if (!m_Board) {
                                 if (ImGui::MenuItem("Load Board")) {
-
+                                    LoadBoard();
                                 }
                             }
 
@@ -240,6 +241,14 @@ namespace AI {
 
     void MainLayer::EndDockspace() const {
         ImGui::End();
+    }
+
+    void MainLayer::LoadBoard() {
+        std::string filePath = InputDialog::OpenFileDialog("Board Files (*.txt)\0*.txt\0");
+
+        CONSOLE_INFO("Loading board from file: {0}", filePath);
+
+        PuzzleSerializer::Load(m_Board, filePath);
     }
 }
 
