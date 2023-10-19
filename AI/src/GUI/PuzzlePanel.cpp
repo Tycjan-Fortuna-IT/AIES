@@ -36,6 +36,7 @@ namespace AI {
                 const float posY = y * size + 40.f + margin;
 
                 Core::ScopedColor ButtonColor(ImGuiCol_Button, value == 0 ? Core::Color::LightBlue : Core::Color::BrightOrange);
+                Core::ScopedColor ButtonHoveredColor(ImGuiCol_ButtonHovered, Core::Color::LightGreen);
                 Core::ScopedColor TextColor(ImGuiCol_Text, Core::Color::LightBlack);
 
                 ImGui::SetCursorPos(ImVec2(posX, posY));

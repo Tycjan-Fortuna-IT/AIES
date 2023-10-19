@@ -52,6 +52,8 @@ namespace AI {
         m_Board->SetPuzzle(3, 3, 12);
 
         m_PuzzlePanel = new PuzzlePanel("Puzzle Preview", ICON_MDI_GRID, m_Board);
+        m_ConsolePanel = new ConsolePanel("Console", ICON_MDI_CONSOLE);
+        m_ControlPanel = new ControlsPanel("Controls", ICON_MDI_GAMEPAD);
 
         Solver* solver = new BFS(m_Board);
 
@@ -199,14 +201,8 @@ namespace AI {
             ImGui::PopStyleVar(2);
 
             m_PuzzlePanel->OnRender();
-
-            ImGui::Begin("Controller");
-
-            ImGui::End();
-
-            ImGui::Begin("Console trace");
-
-            ImGui::End();
+            m_ConsolePanel->OnRender();
+            m_ControlPanel->OnRender();
 
             Core::Application::Get().GetGuiLayer()->SetBlockEvents(false);
         }
