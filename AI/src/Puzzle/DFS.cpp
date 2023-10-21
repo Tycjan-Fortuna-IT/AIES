@@ -8,16 +8,18 @@
 
 namespace AI {
 
-    DFS::DFS(Board* board)
-        : Solver(board) {}
+    DFS::DFS(Board* board, int maxDepth, bool randomize)
+        : Solver(board), m_MaxDepth(maxDepth), m_Randomize(randomize) {}
 
     void DFS::Solve(const std::string &param) {
         std::vector<MoveDirection> moveSet = Solver::GetMoveSet(param);
 
+        SOLVED_CHECK()
+
         auto startTime = std::chrono::steady_clock::now();
 
         std::function<bool(Board*, int)> DFS = [&](Board* board, int depth) {
-            if (depth > 2)
+            if (depth > m_MaxDepth)
                 return false;
 
             if (depth > m_Solution.maxRecursion)
@@ -27,6 +29,8 @@ namespace AI {
 
             if (board->IsSolved())
                 return true;
+
+            SHUFFLE_IF(m_Randomize, moveSet)
 
             for (const MoveDirection direction : moveSet) {
                 if (board->CanMove(direction)) {
