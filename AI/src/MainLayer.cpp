@@ -6,12 +6,13 @@
 #include "imgui.h"
 #include "imgui_internal.h"
 #include "Engine/Core/Utils/StringUtils.hpp"
+#include "GUI/Utils.hpp"
 #include "Platform/GUI/Core/GUIApplication.hpp"
 #include "Platform/GUI/Core/OpenGL/OpenGlRendererAPI.hpp"
 #include "Puzzle/Board.hpp"
 #include "Platform/GUI/Core/UI/Theme.hpp"
-#include "Platform/GUI/Core/UI/UI.hpp"
-#include "Puzzle/BFS.hpp"
+#include "Platform/GUI/Core/Utils/InputDialog.hpp"
+#include "Puzzle/PuzzleSerializer.hpp"
 
 namespace AI {
     MainLayer::MainLayer(const std::string& name)
@@ -26,55 +27,9 @@ namespace AI {
 
         Core::Application::Get().GetGuiLayer()->SetBlockEvents(false);
 
-        // 1 2 3 4
-        // 5 6 7 0
-        // 9 10 11 8
-        // 13 14 15 12
-
-        // Testing stuff
-        m_Board = new Board(4, 4);
-
-        m_Board->SetPuzzle(0, 0, 1);
-        m_Board->SetPuzzle(1, 0, 2);
-        m_Board->SetPuzzle(2, 0, 3);
-        m_Board->SetPuzzle(3, 0, 4);
-        m_Board->SetPuzzle(0, 1, 5);
-        m_Board->SetPuzzle(1, 1, 6);
-        m_Board->SetPuzzle(2, 1, 7);
-        m_Board->SetPuzzle(3, 1, 0);
-        m_Board->SetPuzzle(0, 2, 9);
-        m_Board->SetPuzzle(1, 2, 10);
-        m_Board->SetPuzzle(2, 2, 11);
-        m_Board->SetPuzzle(3, 2, 8);
-        m_Board->SetPuzzle(0, 3, 13);
-        m_Board->SetPuzzle(1, 3, 14);
-        m_Board->SetPuzzle(2, 3, 15);
-        m_Board->SetPuzzle(3, 3, 12);
-
-        m_PuzzlePanel = new PuzzlePanel("Puzzle Preview", ICON_MDI_GRID, m_Board);
-        m_ConsolePanel = new ConsolePanel("Console", ICON_MDI_CONSOLE);
-        m_ControlPanel = new ControlPanel("Control", ICON_MDI_GAMEPAD);
-
-        //m_ConsolePanel->SetCommandCallback([&](const char* command) {
-            //m_ConsolePanel->AddMessage("Trace", Core::LogLevel::Trace);
-            //m_ConsolePanel->AddMessage("Info", Core::LogLevel::Info);
-            //m_ConsolePanel->AddMessage("Warn", Core::LogLevel::Warn);
-            //m_ConsolePanel->AddMessage("Error", Core::LogLevel::Error);
-            //m_ConsolePanel->AddMessage("Debug", Core::LogLevel::Debug);
-            //m_ConsolePanel->AddMessage("Critical", Core::LogLevel::Critical);
-        //});
-
-        Solver* solver = new BFS(m_Board);
-
-        solver->GetBoard()->LogDisplay();
-        solver->Solve("DRUL");
-        solver->GetBoard()->LogDisplay();
-
-        for (const std::string& move : Solver::GetMoveSetChars(solver->GetSolution().moves)) {
-            APP_ERROR(move);
-        }
-
-        delete solver;
+        m_PuzzlePanel = new PuzzlePanel(m_Board, "Puzzle Preview", ICON_MDI_GRID);
+        m_ControlPanel = new ControlPanel(m_Board, "Control", ICON_MDI_GAMEPAD);
+        m_ConsolePanel = ConsolePanel::GetInstance();
     }
 
     void MainLayer::OnDetach() {
@@ -96,7 +51,6 @@ namespace AI {
 
     void MainLayer::OnGuiRender() {
         Core::Application::Get().GetWindow().RegisterOverTitlebar(false);
-        // ImGui::ShowDemoWindow();
 
         BeginDockspace("MyDockSpace");
         {
@@ -141,11 +95,7 @@ namespace AI {
                             ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, Core::Theme::PopupItemSpacing);
 
                             if (ImGui::MenuItem("Load Board")) {
-
-                            }
-
-                            if (ImGui::MenuItem("Save Board")) {
-
+                                LoadBoard();
                             }
 
                             ImGui::Separator();
@@ -209,9 +159,9 @@ namespace AI {
             }
             ImGui::PopStyleVar(2);
 
-            m_PuzzlePanel->OnRender();
             m_ConsolePanel->OnRender();
             m_ControlPanel->OnRender();
+            m_PuzzlePanel->OnRender();
 
             Core::Application::Get().GetGuiLayer()->SetBlockEvents(false);
         }
@@ -289,6 +239,17 @@ namespace AI {
 
     void MainLayer::EndDockspace() const {
         ImGui::End();
+    }
+
+    void MainLayer::LoadBoard() {
+        std::string filePath = InputDialog::OpenFileDialog("Board Files (*.txt)\0*.txt\0");
+
+        if (filePath.empty())
+            return;
+
+        CONSOLE_INFO("Loading board from file: {0}", filePath);
+
+        PuzzleSerializer::Load(m_Board, filePath);
     }
 }
 

@@ -33,5 +33,7 @@ namespace AI {
 
         void BeginDockspace(const char* name) const;
         void EndDockspace() const;
+
+        void LoadBoard();
     };
 }

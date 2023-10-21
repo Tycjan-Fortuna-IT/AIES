@@ -3,15 +3,16 @@
 #include "Solver.hpp"
 
 namespace AI {
-    class BFS : public Solver {
+    class IDFS : public Solver {
     public:
 
-        BFS(Board* board, bool randomize);
+        IDFS(Board* board, int maxDepth, bool randomize);
 
         void Solve(const std::string& param) override;
 
     private:
 
+        int m_MaxDepth;
         bool m_Randomize;
     };
 }

@@ -38,9 +38,13 @@ namespace AI {
         void SetCommandCallback(std::function<void(const char*)> callback) { m_CommandCallback = callback; }
         void ClearCommandCallback() { m_CommandCallback = nullptr; }
 
+        static ConsolePanel* GetInstance() { return s_Instance; }
+
     private:
 
         void GuiRenderMessages();
+
+        static ConsolePanel* s_Instance;
 
         uint16_t m_Capacity = 200;
         uint16_t m_BufferSize = 0;

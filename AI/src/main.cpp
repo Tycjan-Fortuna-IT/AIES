@@ -23,8 +23,8 @@ Core::Application* Core::CreateApplication([[maybe_unused]] int argc, [[maybe_un
     ApplicationSpecification specification;
     specification.Name = "AIApplication Application";
     specification.Type = ApplicationType::Window;
-    specification.Width = 1280;
-    specification.Height = 720;
+    specification.Width = 1700;
+    specification.Height = 950;
 
     return new AI::AIApplication(specification);
 }

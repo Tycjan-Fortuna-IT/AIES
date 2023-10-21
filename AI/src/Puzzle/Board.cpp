@@ -10,6 +10,10 @@ namespace AI {
     Board::Board(uint32_t width, uint32_t height)
         : m_Width(width), m_Height(height) {
         m_Puzzles = std::vector<std::vector<Puzzle>>(width, std::vector<Puzzle>(height));
+
+        FOR_EACH_PUZZLE {
+            m_Puzzles[x][y] = Puzzle(y * width + x + 1);
+        }
     }
 
     Puzzle Board::GetEmptyPuzzle() const {
@@ -43,7 +47,7 @@ namespace AI {
     void Board::SetPuzzle(uint32_t x, uint32_t y, uint32_t val) {
         ASSERT(x < m_Width && y < m_Height, "Invalid puzzle position!")
 
-            m_Puzzles[x][y] = val;
+        m_Puzzles[x][y] = val;
     }
 
     bool Board::CanMove(MoveDirection direction) const {
@@ -63,7 +67,7 @@ namespace AI {
         ASSERT(CanMove(direction), "Can't move in this direction {}, empty puzzle position: {}, {}",
             direction, GetEmptyPuzzlePosition().first, GetEmptyPuzzlePosition().second)
 
-            auto [x, y] = GetEmptyPuzzlePosition();
+        auto [x, y] = GetEmptyPuzzlePosition();
 
         int dx = 0, dy = 0;
 
@@ -116,7 +120,7 @@ namespace AI {
         return true;
     }
 
-    MoveDirection Board::GetOpositeDirection(MoveDirection direction) {
+    MoveDirection Board::GetOppositeDirection(MoveDirection direction) {
         switch (direction) {
             case MoveDirection::UP: return MoveDirection::DOWN;
             case MoveDirection::DOWN: return MoveDirection::UP;

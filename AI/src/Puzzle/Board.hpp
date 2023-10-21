@@ -54,7 +54,7 @@ namespace AI {
 
         bool IsSolved() const;
 
-        static MoveDirection GetOpositeDirection(MoveDirection direction);
+        static MoveDirection GetOppositeDirection(MoveDirection direction);
         bool operator==(const Board& other) const;
 
     private:
