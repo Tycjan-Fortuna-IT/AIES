@@ -1,4 +1,3 @@
-#include "pch.hpp"
 #include "ConsolePanel.hpp"
 
 #include <imgui.h>

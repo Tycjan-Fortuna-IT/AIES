@@ -1,4 +1,3 @@
-#include "pch.hpp"
 #include "ControlPanel.hpp"
 
 #include <imgui.h>
@@ -174,7 +173,7 @@ namespace AI {
             m_Board = nullptr;
             m_DeleteBoardRequest = false;
         }
-            
+
 
         ImGui::End();
     }

@@ -7,7 +7,7 @@
 #include "Board.hpp"
 
 #define SOLVED_CHECK() if (m_Board->IsSolved()) { CONSOLE_WARN("Puzzle is already solved!"); return; }
-#define SHUFFLE_IF(cond, vec) if (cond) { m_RandomEngine.seed(std::chrono::steady_clock::now().time_since_epoch().count()); std::shuffle(vec.begin(), vec.end(), m_RandomEngine); }
+#define SHUFFLE_IF(cond, vec) if (cond) { m_RandomEngine.seed(static_cast<unsigned int>(std::chrono::steady_clock::now().time_since_epoch().count())); std::shuffle((vec).begin(), (vec).end(), m_RandomEngine); }
 
 namespace AI {
     struct Solution final {

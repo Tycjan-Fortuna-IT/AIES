@@ -1,4 +1,3 @@
-#include "pch.hpp"
 #include "PuzzlePanel.hpp"
 
 #include <string>

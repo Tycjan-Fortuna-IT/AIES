@@ -13,9 +13,6 @@ project "AI"
     targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
     objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
 
-    pchheader "pch.hpp"
-	pchsource "src/pch.cpp"
-
     defines {
         "SPDLOG_COMPILED_LIB",
         "_CRT_SECURE_NO_WARNINGS",

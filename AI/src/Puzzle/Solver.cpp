@@ -1,4 +1,3 @@
-#include "pch.hpp"
 #include "Solver.hpp"
 
 namespace AI {

@@ -1,4 +1,3 @@
-#include "pch.hpp"
 #include "MainLayer.hpp"
 
 #include <icons/include/icons/IconsMaterialDesignIcons.h>

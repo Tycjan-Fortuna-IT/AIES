@@ -1,4 +1,3 @@
-#include "pch.hpp"
 #include "PuzzleSerializer.hpp"
 
 #include <fstream>
@@ -22,7 +21,7 @@ namespace AI {
                 delete board;
                 board = nullptr;
             }
-            
+
             board = new Board(m_Width, m_Height);
 
             FOR_EACH_PUZZLE_W_H(m_Width, m_Height) {

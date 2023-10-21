@@ -1,4 +1,3 @@
-#include "pch.hpp"
 #include "Board.hpp"
 
 #include <iostream>

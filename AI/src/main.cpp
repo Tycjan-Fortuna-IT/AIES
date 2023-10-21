@@ -1,5 +1,3 @@
-#include "pch.hpp"
-
 #include "MainLayer.hpp"
 #include "Engine/Core/Entrypoint.hpp"
 #include "Engine/Core/Application.hpp"

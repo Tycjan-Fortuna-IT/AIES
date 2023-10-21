@@ -1,4 +1,3 @@
-#include "pch.hpp"
 #include "Puzzle.hpp"
 
 namespace AI {
