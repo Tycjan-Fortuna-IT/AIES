@@ -107,7 +107,7 @@ namespace AI {
                 ImGui::Separator();
                 ImGui::Spacing();
 
-                if (index == -1) {
+                if (index == -2) {
                     index = (int32_t)(m_Solution.size() - 1);
                 }
 
@@ -152,10 +152,15 @@ namespace AI {
                 ImGui::Spacing();
             }
 
-            if (ImGui::Button("Reset")) {
-                m_DeleteBoardRequest = true;
-                m_Solution.clear();
-                index = -1;
+            if (m_Board) {
+                Core::ScopedColor ButtonColor(ImGuiCol_Button, Core::Color::Orange);
+
+                if (ImGui::Button("Reset")) {
+                    m_DeleteBoardRequest = true;
+                    m_Solution.clear();
+                    index = -2;
+                    CONSOLE_WARN("Board has been reset!");
+                }
             }
         }
 

@@ -67,7 +67,10 @@ namespace AI {
                 }
             }
 
-            ImGui::SetScrollY(ImGui::GetScrollMaxY()); // temporary fix
+            if (m_RequestScrollToBottom && ImGui::GetScrollMaxY() > 0) {
+                ImGui::SetScrollY(ImGui::GetScrollMaxY());
+                m_RequestScrollToBottom = false;
+            }
 
             ImGui::EndTable();
         }
