@@ -18,6 +18,11 @@ namespace AI {
             CONSOLE_ERROR("Invalid board file, width and height must be greater than 0.");
 
         if (m_Width && m_Height) {
+            if (board) {
+                delete board;
+                board = nullptr;
+            }
+            
             board = new Board(m_Width, m_Height);
 
             FOR_EACH_PUZZLE_W_H(m_Width, m_Height) {

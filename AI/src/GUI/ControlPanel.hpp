@@ -22,5 +22,7 @@ namespace AI {
         Board*& m_Board;
 
         std::vector<MoveDirection> m_Solution{};
+
+        bool m_DeleteBoardRequest = false;
     };
 }

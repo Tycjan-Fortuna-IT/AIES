@@ -94,10 +94,8 @@ namespace AI {
                         if (ImGui::BeginMenu("File")) {
                             ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, Core::Theme::PopupItemSpacing);
 
-                            if (!m_Board) {
-                                if (ImGui::MenuItem("Load Board")) {
-                                    LoadBoard();
-                                }
+                            if (ImGui::MenuItem("Load Board")) {
+                                LoadBoard();
                             }
 
                             ImGui::Separator();
@@ -162,8 +160,8 @@ namespace AI {
             ImGui::PopStyleVar(2);
 
             m_ConsolePanel->OnRender();
-            m_PuzzlePanel->OnRender();
             m_ControlPanel->OnRender();
+            m_PuzzlePanel->OnRender();
 
             Core::Application::Get().GetGuiLayer()->SetBlockEvents(false);
         }
@@ -245,6 +243,9 @@ namespace AI {
 
     void MainLayer::LoadBoard() {
         std::string filePath = InputDialog::OpenFileDialog("Board Files (*.txt)\0*.txt\0");
+
+        if (filePath.empty())
+            return;
 
         CONSOLE_INFO("Loading board from file: {0}", filePath);
 

@@ -17,8 +17,8 @@ namespace AI {
             : board(board), moves(moves) {}
     };
 
-    BFS::BFS(Board* board)
-        : Solver(board) {}
+    BFS::BFS(Board* board, bool randomize)
+        : Solver(board), m_Randomize(randomize) {}
 
     void BFS::Solve(const std::string& param) {
         std::vector<MoveDirection> moveSet = Solver::GetMoveSet(param);
@@ -28,10 +28,7 @@ namespace AI {
 
         auto startTime = std::chrono::steady_clock::now();
 
-        if (m_Board->IsSolved()) {
-            CONSOLE_WARN("Puzzle is already solved!");
-            return;
-        }
+        SOLVED_CHECK()
 
         q.push({ *m_Board, {} });
 
@@ -46,6 +43,8 @@ namespace AI {
                 m_Solution.moves = currentState.moves;
                 break;
             }
+
+            SHUFFLE_IF(m_Randomize, moveSet)
 
             for (const MoveDirection direction : moveSet) {
                 if (currentState.board.CanMove(direction)) {
