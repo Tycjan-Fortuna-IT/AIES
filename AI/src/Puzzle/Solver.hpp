@@ -36,6 +36,8 @@ namespace AI {
         static std::string GetMoveSetString(const std::vector<MoveDirection>& directions);
         static std::string GetStringifiedDirection(MoveDirection direction);
 
+        static bool IsBoardSolvable(const Board* board);
+
     protected:
 
         Board* m_Board{ nullptr };

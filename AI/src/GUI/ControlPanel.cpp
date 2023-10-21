@@ -85,19 +85,23 @@ namespace AI {
                     if (ImGui::Button("Solve")) {
                         CONSOLE_INFO("Solving the board using {} with parameter {}", strategies[strategy], randomize ? "Random" : orders[order]);
 
-                        Solver* solver = nullptr;
+                        if (Solver::IsBoardSolvable(m_Board)) {
+                            Solver* solver = nullptr;
 
-                        switch (strategy) {
-                            case _BFS: solver = new BFS(m_Board, randomize); break;
-                            case _DFS: solver = new DFS(m_Board, maxDepth, randomize); break;
-                            case _IDFS: solver = new IDFS(m_Board, maxDepth, randomize); break;
+                            switch (strategy) {
+                                case _BFS: solver = new BFS(m_Board, randomize); break;
+                                case _DFS: solver = new DFS(m_Board, maxDepth, randomize); break;
+                                case _IDFS: solver = new IDFS(m_Board, maxDepth, randomize); break;
+                            }
+
+                            solver->Solve(orders[order]);
+
+                            m_Solution = solver->GetSolution().moves;
+
+                            delete solver;
+                        } else {
+                            CONSOLE_ERROR("Board is not solvable!");
                         }
-
-                        solver->Solve(orders[order]);
-
-                        m_Solution = solver->GetSolution().moves;
-
-                        delete solver;
                     }
                 }
 

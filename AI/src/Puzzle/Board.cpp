@@ -82,6 +82,15 @@ namespace AI {
         m_Puzzles[x + dx][y + dy] = 0;
     }
 
+    bool Board::HasEmptyPuzzle() const {
+        FOR_EACH_PUZZLE{
+            if (m_Puzzles[x][y].IsEmpty())
+                return true;
+        }
+
+        return false;
+    }
+
     void Board::LogDisplay() const {
         std::stringstream ss;
 

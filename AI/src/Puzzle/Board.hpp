@@ -50,6 +50,8 @@ namespace AI {
         bool CanMove(MoveDirection direction) const;
         void Move(MoveDirection direction);
 
+        bool HasEmptyPuzzle() const;
+
         void LogDisplay() const;
 
         bool IsSolved() const;

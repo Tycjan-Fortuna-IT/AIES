@@ -60,4 +60,10 @@ namespace AI {
 
         return "";
     }
+
+    bool Solver::IsBoardSolvable(const Board* board) {
+        // Consider counting inversions in the board
+
+        return board->HasEmptyPuzzle();
+    }
 }
