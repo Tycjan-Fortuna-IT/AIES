@@ -22,13 +22,13 @@
 .vscode
 
 # Assets
-assets
+assets/fonts
 imgui.ini
 
 # Linux
 Makefile
 
-# premake files
+# Premake files
 !/vendor/premake/*
 
 # Cache files used for testing
