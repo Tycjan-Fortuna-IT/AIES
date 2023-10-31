@@ -113,7 +113,7 @@ namespace AI {
         // 9 10 11 12
         // 13 14 15 0
 
-        FOR_EACH_PUZZLE{
+        FOR_EACH_PUZZLE {
             if (
                 m_Puzzles[x][y].GetValue() != 0 &&
                 (

@@ -1,18 +1,17 @@
 #pragma once
 
-#include "Solver.hpp"
+#include "Puzzle/Solver.hpp"
 
 namespace AI {
-    class IDFS : public Solver {
+    class BFS : public Solver {
     public:
 
-        IDFS(Board* board, int maxDepth, bool randomize);
+        BFS(Board* board, bool randomize);
 
         void Solve(const std::string& param) override;
 
     private:
 
-        int m_MaxDepth;
         bool m_Randomize;
     };
 }

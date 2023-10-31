@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Solver.hpp"
+#include "Puzzle/Solver.hpp"
 
 namespace AI {
     class DFS : public Solver {

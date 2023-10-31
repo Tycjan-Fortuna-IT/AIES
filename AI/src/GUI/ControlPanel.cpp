@@ -6,14 +6,16 @@
 #include "Engine/Core/Debug/Logger.hpp"
 #include "Platform/GUI/Core/UI/Color.hpp"
 #include "Platform/GUI/Core/UI/UI.hpp"
-#include "Puzzle/BFS.hpp"
-#include "Puzzle/DFS.hpp"
-#include "Puzzle/IDFS.hpp"
 #include "Puzzle/Solver.hpp"
+#include "Puzzle/Solvers/BruteForce/BFS.hpp"
+#include "Puzzle/Solvers/BruteForce/DFS.hpp"
+#include "Puzzle/Solvers/BruteForce/IDFS.hpp"
+#include "Puzzle/Solvers/Heuristic/BestFirstSearch.hpp"
 
 #define _BFS 0
 #define _DFS 1
 #define _IDFS 2
+#define _HBFS 3
 
 namespace AI {
     ControlPanel::ControlPanel(Board*& board, const char* name, const char8_t* icon)
@@ -50,16 +52,18 @@ namespace AI {
                     }
                 }
             } else if (m_Solution.empty()) {
-                static const char* strategies[] = { "BFS", "DFS", "IDFS" };
+                static const char* strategies[] = { "BFS", "DFS", "IDFS", "BestFirstSearch" };
                 static const char* orders[] = { // All permutations of "LRUD"
                     "LRUD", "LURD", "LUDR", "RLUD", "RULD", "RUDL",
                     "ULRD", "ULDR", "URLD", "URDL", "UDLR", "UDRL",
                     "RLDU", "RDLU", "RULD", "RUDL", "RDUL", "RDLU",
                     "DRLU", "DRUL", "DLRU", "DLUR", "DURL", "DULR"
                 };
+                static const char* heurestics[] = { "Zero", "Manhattan", "Hamming" };
 
                 static int strategy = 0;
                 static int order = 0;
+                static int heurestic = 0;
                 static int maxDepth = 5;
                 static bool randomize = false;
 
@@ -76,6 +80,8 @@ namespace AI {
                         ImGui::Spacing();
                         ImGui::InputInt("Max depth", &maxDepth);
                     }
+                } else if (strategy == _HBFS) {
+                    if (Core::UI::PropertyDropdown("Select heurestic", heurestics, (int32_t)std::size(heurestics), &heurestic)) {}
                 }
 
                 {
@@ -91,9 +97,14 @@ namespace AI {
                                 case _BFS: solver = new BFS(m_Board, randomize); break;
                                 case _DFS: solver = new DFS(m_Board, maxDepth, randomize); break;
                                 case _IDFS: solver = new IDFS(m_Board, maxDepth, randomize); break;
+                                case _HBFS: solver = new BestFirstSearch(m_Board); break;
                             }
 
-                            solver->Solve(orders[order]);
+                            if (strategy == _BFS || strategy == _DFS || strategy == _IDFS) {
+                                solver->Solve(orders[order]);
+                            } else if (strategy == _HBFS) {
+                                solver->Solve(heurestics[heurestic]);
+                            }
 
                             m_Solution = solver->GetSolution().moves;
 
