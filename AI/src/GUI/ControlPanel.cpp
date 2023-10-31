@@ -27,7 +27,21 @@ namespace AI {
         {
             Core::ScopedStyle FramePadding(ImGuiStyleVar_FramePadding, ImVec2(4.0f, 2.0f));
 
-            static int32_t index = -1;
+            static const char* strategies[] = { "BFS", "DFS", "IDFS", "BestFirstSearch" };
+            static const char* orders[] = { // All permutations of "LRUD"
+                "LRUD", "LURD", "LUDR", "RLUD", "RULD", "RUDL",
+                "ULRD", "ULDR", "URLD", "URDL", "UDLR", "UDRL",
+                "RLDU", "RDLU", "RULD", "RUDL", "RDUL", "RDLU",
+                "DRLU", "DRUL", "DLRU", "DLUR", "DURL", "DULR"
+            };
+            static const char* heurestics[] = { "Zero", "Manhattan", "Hamming" };
+
+            static int32_t index = -2;
+            static int strategy = 0;
+            static int order = 0;
+            static int heurestic = 0;
+            static int maxDepth = 5;
+            static bool randomize = false;
 
             if (!m_Board) {
                 static int32_t width = 0;
@@ -46,27 +60,11 @@ namespace AI {
 
                     if (width > 0 && height > 0) {
                         m_Board = new Board(width, height);
-                    }
-                    else {
+                    } else {
                         CONSOLE_ERROR("Invalid width or height!");
                     }
                 }
             } else if (m_Solution.empty()) {
-                static const char* strategies[] = { "BFS", "DFS", "IDFS", "BestFirstSearch" };
-                static const char* orders[] = { // All permutations of "LRUD"
-                    "LRUD", "LURD", "LUDR", "RLUD", "RULD", "RUDL",
-                    "ULRD", "ULDR", "URLD", "URDL", "UDLR", "UDRL",
-                    "RLDU", "RDLU", "RULD", "RUDL", "RDUL", "RDLU",
-                    "DRLU", "DRUL", "DLRU", "DLUR", "DURL", "DULR"
-                };
-                static const char* heurestics[] = { "Zero", "Manhattan", "Hamming" };
-
-                static int strategy = 0;
-                static int order = 0;
-                static int heurestic = 0;
-                static int maxDepth = 5;
-                static bool randomize = false;
-
                 if (Core::UI::PropertyDropdown("Select search strategy", strategies, (int32_t)std::size(strategies), &strategy)) {}
 
                 if (strategy == _BFS || strategy == _DFS || strategy == _IDFS) {

@@ -57,15 +57,19 @@ namespace AI {
                         HeuristicState nextState(nextBoard, cost, evaluation, nextMoves);
 
                         queue.push(nextState);
+                        m_Solution.maxRecursion = std::max(m_Solution.maxRecursion, (int)nextMoves.size());
                     }
                 }
             }
         }
 
+        m_Solution.visited = (int)visited.size();
+
         if (m_Solution.processed >= MAX_STATES) {
             CONSOLE_WARN("Best First Search reached max states limit!");
             CONSOLE_ERROR("Solution not found!!"); return;
         }
+
         const auto endTimepoint = std::chrono::steady_clock::now();
         const auto elapsedTime = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch()
                                   - std::chrono::time_point_cast<std::chrono::microseconds>(startTime).time_since_epoch();
