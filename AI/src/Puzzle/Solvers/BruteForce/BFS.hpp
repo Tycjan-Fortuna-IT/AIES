@@ -8,7 +8,7 @@ namespace AI {
 
         BFS(Board* board, bool randomize);
 
-        void Solve(const std::string& param) override;
+        void Solve() override;
 
     private:
 

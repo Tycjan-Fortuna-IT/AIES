@@ -49,18 +49,6 @@ namespace AI {
         return eval;
     }
 
-    int HeuresticCalculationWizard::GetLinearConflictHeuresticEvaluation(const Board& board) {
-        int eval = 0;
-
-        return eval;
-    }
-
-    int HeuresticCalculationWizard::GetEuclideanHeuresticEvaluation(const Board& board) {
-        int eval = 0;
-
-        return eval;
-    }
-
     int HeuresticCalculationWizard::GetChebyshevHeuresticEvaluation(const Board& board) {
         int eval = 0;
 

@@ -8,7 +8,7 @@ namespace AI {
 
         DFS(Board* board, int maxDepth, bool randomize);
 
-        void Solve(const std::string& param) override;
+        void Solve() override;
 
     private:
 

@@ -20,8 +20,8 @@ namespace AI {
     BFS::BFS(Board* board, bool randomize)
         : AI::Solver(board), m_Randomize(randomize) {}
 
-    void BFS::Solve(const std::string& param) {
-        std::vector<MoveDirection> moveSet = Solver::GetMoveSet(param);
+    void BFS::Solve() {
+        std::vector<MoveDirection> moveSet = Solver::GetMoveSet(m_SearchOrder);
 
         std::queue<BFSState> q;
         std::unordered_set<Board> visited;

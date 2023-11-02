@@ -10,8 +10,8 @@ namespace AI {
     DFS::DFS(Board* board, int maxDepth, bool randomize)
         : Solver(board), m_MaxDepth(maxDepth), m_Randomize(randomize) {}
 
-    void DFS::Solve(const std::string &param) {
-        std::vector<MoveDirection> moveSet = Solver::GetMoveSet(param);
+    void DFS::Solve() {
+        std::vector<MoveDirection> moveSet = Solver::GetMoveSet(m_SearchOrder);
 
         SOLVED_CHECK()
 

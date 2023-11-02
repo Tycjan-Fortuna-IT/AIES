@@ -8,6 +8,6 @@ namespace AI {
 
         BestFirstSearch(Board* board);
 
-        void Solve(const std::string& param) override;
+        void Solve() override;
     };
 }

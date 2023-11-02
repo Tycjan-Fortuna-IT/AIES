@@ -12,7 +12,7 @@ namespace AI {
     BestFirstSearch::BestFirstSearch(Board *board)
         : Solver(board) {}
 
-    void BestFirstSearch::Solve(const std::string &param) {
+    void BestFirstSearch::Solve() {
         SOLVED_CHECK()
 
         auto startTime = std::chrono::steady_clock::now();
@@ -20,14 +20,15 @@ namespace AI {
         std::priority_queue<HeuristicState> queue;
         std::unordered_set<Board> visited;
 
-        std::function<int(const Board&)> heuristicFn;
-
-        GET_HEURESTIC_FN(heuristicFn, param)
+        GET_HEURESTIC_FN(heuristicFn, m_Heurestic)
 
         HeuristicState start(*m_Board, 0, heuristicFn(*m_Board), m_Solution.moves);
         queue.push(start);
 
-        while (!queue.empty() && m_Solution.processed < MAX_STATES) {
+        while (
+            !queue.empty() &&
+            m_Solution.processed < MAX_STATES
+        ) {
             HeuristicState currentState = queue.top();
             queue.pop();
 
@@ -46,7 +47,6 @@ namespace AI {
                     nextBoard.Move(direction);
 
                     if (!visited.contains(nextBoard)) {
-                        int cost = currentState.cost + 1;
                         int evaluation = heuristicFn(nextBoard);
 
                         visited.insert(nextBoard);
@@ -54,7 +54,7 @@ namespace AI {
                         std::vector<MoveDirection> nextMoves = currentState.moves;
                         nextMoves.push_back(direction);
 
-                        HeuristicState nextState(nextBoard, cost, evaluation, nextMoves);
+                        HeuristicState nextState(nextBoard, 0, evaluation, nextMoves);
 
                         queue.push(nextState);
                         m_Solution.maxRecursion = std::max(m_Solution.maxRecursion, (int)nextMoves.size());

@@ -24,11 +24,14 @@ namespace AI {
         Solver(Board* board);
         virtual ~Solver() = default;
 
-        virtual void Solve(const std::string& param) = 0;
+        virtual void Solve() = 0;
 
         const Solution& GetSolution() const { return m_Solution; }
 
         Board* GetBoard() const { return m_Board; }
+
+        void SetSearchOrder(const std::string& order) { m_SearchOrder = order; }
+        void SetHeurestic(const std::string& heurestic) { m_Heurestic = heurestic; }
 
         static std::vector<MoveDirection> GetMoveSet(const std::string& permutation);
         static std::vector<std::string> GetMoveSetChars(const std::vector<MoveDirection> directions);
@@ -42,6 +45,9 @@ namespace AI {
 
         Board* m_Board{ nullptr };
         Solution m_Solution{};
+
+        std::string m_SearchOrder{};
+        std::string m_Heurestic{};
 
         std::mt19937 m_RandomEngine;
     };

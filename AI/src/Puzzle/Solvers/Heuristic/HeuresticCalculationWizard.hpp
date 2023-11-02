@@ -1,28 +1,21 @@
 #pragma once
 
-#include <functional>
-#include <string>
-
 #include "Puzzle/Board.hpp"
 
-#define MAX_STATES 10000
-#define GET_HEURESTIC_FN(fn, type) \
-    if (param == "Zero") { \
+#define MAX_STATES 50000
+#define GET_HEURESTIC_FN(fn, type) std::function<int(const Board&)> ##fn; \
+    if (type == "Zero") { \
         fn = [](const Board& board) -> int { return HeuresticCalculationWizard::GetZeroHeuresticEvaluation(board); }; \
-    } else if (param == "Manhattan") { \
+    } else if (type == "Manhattan") { \
         fn = [](const Board& board) -> int { return HeuresticCalculationWizard::GetManhattanHeuresticEvaluation(board); }; \
-    } else if (param == "Hamming") { \
+    } else if (type == "Hamming") { \
         fn = [](const Board& board) -> int { return HeuresticCalculationWizard::GetHammingHeuresticEvaluation(board); }; \
-    } else if (param == "LinearConflict") { \
-        fn = [](const Board& board) -> int { return HeuresticCalculationWizard::GetLinearConflictHeuresticEvaluation(board); }; \
-    } else if (param == "Euclidean") { \
-        fn = [](const Board& board) -> int { return HeuresticCalculationWizard::GetEuclideanHeuresticEvaluation(board); }; \
-    } else if (param == "Chebyshev") { \
+    } else if (type == "Chebyshev") { \
         fn = [](const Board& board) -> int { return HeuresticCalculationWizard::GetChebyshevHeuresticEvaluation(board); }; \
-    } else if (param == "Gaschnig") { \
+    } else if (type == "Gaschnig") { \
         fn = [](const Board& board) -> int { return HeuresticCalculationWizard::GetGaschnigHeuresticEvaluation(board); }; \
     } else { \
-        APP_CRITICAL("Unknown heurestic function: {}", param); \
+        APP_CRITICAL("Unknown heurestic function: {}", type); \
     }
 
 namespace AI {
@@ -64,20 +57,6 @@ namespace AI {
          * @return The Hamming distance heuristic value.
          */
         static int GetHammingHeuresticEvaluation(const Board& board);
-
-        /**
-         * Calculates the number of conflicting tile pairs in each row and column, and returns the sum of these conflicts.
-         * @param board The board to evaluate.
-         * @return The linear conflict heuristic value.
-         */
-        static int GetLinearConflictHeuresticEvaluation(const Board& board);
-
-        /**
-         * Calculates the Euclidean distance between each tile and its goal position, and returns the sum of these distances.
-         * @param board The board to evaluate.
-         * @return The Euclidean distance heuristic value.
-         */
-        static int GetEuclideanHeuresticEvaluation(const Board& board);
 
         /**
          * Calculates the Chebyshev distance between each tile and its goal position, and returns the sum of these distances.
