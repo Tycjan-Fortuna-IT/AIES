@@ -66,6 +66,7 @@ namespace AI {
         CLOCK_STOP()
 
         CONSOLE_INFO("Solution found! BFS took {} us", elapsedTime.count());
+        CONSOLE_INFO("Solution moves count: {}", m_Solution.moves.size());
         CONSOLE_INFO("Solution moves: {}", Solver::GetMoveSetString(m_Solution.moves));
         CONSOLE_INFO("Visited places: {}, Processed places: {}, Max recursion: {}", m_Solution.visited, m_Solution.processed, m_Solution.maxRecursion);
     }

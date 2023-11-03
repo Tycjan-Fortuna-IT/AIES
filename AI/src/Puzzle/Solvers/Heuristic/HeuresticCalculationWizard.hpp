@@ -12,8 +12,8 @@
         fn = [](const Board& board) -> int { return HeuresticCalculationWizard::GetHammingHeuresticEvaluation(board); }; \
     } else if (type == "Chebyshev") { \
         fn = [](const Board& board) -> int { return HeuresticCalculationWizard::GetChebyshevHeuresticEvaluation(board); }; \
-    } else if (type == "Gaschnig") { \
-        fn = [](const Board& board) -> int { return HeuresticCalculationWizard::GetGaschnigHeuresticEvaluation(board); }; \
+    } else if (type == "Euclidean") { \
+        fn = [](const Board& board) -> int { return HeuresticCalculationWizard::GetEuclideanHeuresticEvaluation(board); }; \
     } else { \
         APP_CRITICAL("Unknown heurestic function: {}", type); \
     }
@@ -66,10 +66,10 @@ namespace AI {
         static int GetChebyshevHeuresticEvaluation(const Board& board);
 
         /**
-         * Calculates the Gaschnig heuristic value, which is a combination of the Manhattan and linear conflict heuristics.
+         * Calculates the Euclidean distance between each tile and its goal position, and returns the sum of these distances.
          * @param board The board to evaluate.
-         * @return The Gaschnig heuristic value.
+         * @return The Euclidean heuristic value.
          */
-        static int GetGaschnigHeuresticEvaluation(const Board& board);
+        static int GetEuclideanHeuresticEvaluation(const Board& board);
     };
 }
