@@ -19,44 +19,20 @@ namespace AI {
 
         auto startTime = std::chrono::steady_clock::now();
 
-        std::multiset<HeuristicState> queue;
+        std::priority_queue<HeuristicState> queue;
         std::unordered_set<Board> visited;
 
         GET_HEURESTIC_FN(heuristicFn, m_Heurestic)
 
         HeuristicState start(*m_Board, 0, heuristicFn(*m_Board), m_Solution.moves);
-        queue.insert(start);
+        queue.push(start);
 
         while (
             !queue.empty() &&
             m_Solution.processed < MAX_STATES
         ) {
-            if (queue.size() + visited.size() > m_MemoryLimit) {
-                HeuristicState exceedingState = *queue.begin();
-                queue.erase(queue.begin());
-
-                if (!exceedingState.moves.empty()) {
-                    MoveDirection lastMove = exceedingState.moves.back();
-                    Board lastBoard = exceedingState.board;
-
-                    lastBoard.Move(Board::GetOppositeDirection(lastMove));
-
-                    auto it = std::find_if(queue.begin(), queue.end(), [&lastBoard](const HeuristicState& state) {
-                        return state.board == lastBoard;
-                    });
-
-                    if (it != queue.end()) {
-                        HeuristicState state = *it;
-
-                        state.evaluation = std::numeric_limits<int>::max();
-                        queue.erase(it);
-                        queue.insert(state);
-                    }
-                }
-            }
-            APP_INFO("Queue size: {}, Visited size: {}", queue.size(), visited.size());
-            HeuristicState currentState = *queue.begin();
-            queue.erase(queue.begin());
+            HeuristicState currentState = queue.top();
+            queue.pop();
 
             m_Solution.processed++;
 
@@ -65,8 +41,6 @@ namespace AI {
                 m_Solution.moves = currentState.moves;
                 break;
             }
-
-            visited.insert(currentState.board);
 
             for (const MoveDirection& direction : { UP, DOWN, RIGHT, LEFT }) {
                 if (currentState.board.CanMove(direction)) {
@@ -85,19 +59,46 @@ namespace AI {
 
                         HeuristicState nextState(nextBoard, cost, evaluation, nextMoves);
 
-                        queue.insert(nextState);
+                        queue.push(nextState);
                         m_Solution.maxRecursion = std::max(m_Solution.maxRecursion, (int)nextMoves.size());
                     }
                 }
             }
+
+            if (queue.size() + visited.size() > m_MemoryLimit && !queue.empty()) {
+                std::vector<HeuristicState> states;
+
+                while (!queue.empty()) {
+                    states.push_back(queue.top());
+                    queue.pop();
+                }
+
+                std::sort(states.begin(), states.end(), [](const HeuristicState& a, const HeuristicState& b) {
+                    return a.evaluation < b.evaluation;
+                });
+
+                for (const HeuristicState& state : states) {
+                    queue.push(state);
+                }
+
+                while (queue.size() + visited.size() > m_MemoryLimit) {
+                    queue.pop();
+                }
+            }
         }
 
-        const auto endTimepoint = std::chrono::steady_clock::now();
-        const auto elapsedTime = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch()
-                                  - std::chrono::time_point_cast<std::chrono::microseconds>(startTime).time_since_epoch();
+        if (m_Solution.moves.empty()) {
+            CONSOLE_ERROR("Solution not found!");
+        } else {
+            m_Solution.visited = (int)visited.size();
 
-        CONSOLE_INFO("Solution found! SMA* took {} us", elapsedTime.count());
-        CONSOLE_INFO("Solution moves: {}", Solver::GetMoveSetString(m_Solution.moves));
-        CONSOLE_INFO("Visited places: {}, Processed places: {}, Max recursion: {}", m_Solution.visited, m_Solution.processed, m_Solution.maxRecursion);
+            const auto endTimepoint = std::chrono::steady_clock::now();
+            const auto elapsedTime = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch()
+                                      - std::chrono::time_point_cast<std::chrono::microseconds>(startTime).time_since_epoch();
+
+            CONSOLE_INFO("Solution found! SMA* took {} us", elapsedTime.count());
+            CONSOLE_INFO("Solution moves: {}", Solver::GetMoveSetString(m_Solution.moves));
+            CONSOLE_INFO("Visited places: {}, Processed places: {}, Max recursion: {}", m_Solution.visited, m_Solution.processed, m_Solution.maxRecursion);
+        }
     }
 }

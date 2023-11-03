@@ -64,14 +64,18 @@ namespace AI {
             }
         }
 
-        m_Solution.visited = (int)visited.size();
+        if (m_Solution.processed >= MAX_STATES) {
+            CONSOLE_ERROR("Solution not found!");
+        } else {
+            m_Solution.visited = (int)visited.size();
 
-        const auto endTimepoint = std::chrono::steady_clock::now();
-        const auto elapsedTime = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch()
-                                  - std::chrono::time_point_cast<std::chrono::microseconds>(startTime).time_since_epoch();
+            const auto endTimepoint = std::chrono::steady_clock::now();
+            const auto elapsedTime = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch()
+                                      - std::chrono::time_point_cast<std::chrono::microseconds>(startTime).time_since_epoch();
 
-        CONSOLE_INFO("Solution found! A* took {} us", elapsedTime.count());
-        CONSOLE_INFO("Solution moves: {}", Solver::GetMoveSetString(m_Solution.moves));
-        CONSOLE_INFO("Visited places: {}, Processed places: {}, Max recursion: {}", m_Solution.visited, m_Solution.processed, m_Solution.maxRecursion);
+            CONSOLE_INFO("Solution found! A* took {} us", elapsedTime.count());
+            CONSOLE_INFO("Solution moves: {}", Solver::GetMoveSetString(m_Solution.moves));
+            CONSOLE_INFO("Visited places: {}, Processed places: {}, Max recursion: {}", m_Solution.visited, m_Solution.processed, m_Solution.maxRecursion);
+        }
     }
 }
