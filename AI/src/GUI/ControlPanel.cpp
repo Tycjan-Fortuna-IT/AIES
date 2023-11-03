@@ -40,7 +40,7 @@ namespace AI {
                 "RLDU", "RDLU", "RULD", "RUDL", "RDUL", "RDLU",
                 "DRLU", "DRUL", "DLRU", "DLUR", "DURL", "DULR"
             };
-            static const char* heurestics[] = { "Zero", "Manhattan", "Hamming", "Chebyshev", "Gaschnig" };
+            static const char* heurestics[] = { "Zero", "Manhattan", "Hamming", "Chebyshev", "Euclidean" };
 
             static int32_t index = -2;
             static int strategy = 0;
@@ -133,9 +133,19 @@ namespace AI {
 
             }
 
-            if (m_Solution.size() > 1) {
+            if (!m_Solution.empty()) {
                 ImGui::Separator();
                 ImGui::Spacing();
+
+                if (ImGui::Button("Copy to clipboard")) {
+                    std::string solution;
+
+                    for (const auto& move : m_Solution) {
+                        solution += Solver::GetStringifiedDirection(move);
+                    }
+
+                    ImGui::SetClipboardText(solution.c_str());
+                }
 
                 if (index == -2) {
                     index = (int32_t)(m_Solution.size() - 1);

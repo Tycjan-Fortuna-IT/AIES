@@ -24,11 +24,10 @@ namespace AI {
         {
             Core::ScopedStyle FramePadding(ImGuiStyleVar_FramePadding, ImVec2(4.0f, 2.0f));
 
-            ImGui::Separator();
-            ImGui::Spacing();
-            ImGui::Spacing();
-
-            ImGui::Separator();
+            if (ImGui::Button("Clear")) {
+                m_BufferBegin = 0;
+                m_BufferSize = 0;
+            }
 
             GuiRenderMessages();
         }
