@@ -14,8 +14,7 @@ namespace AI {
 
     void AStar::Solve() {
         SOLVED_CHECK()
-
-        auto startTime = std::chrono::steady_clock::now();
+        CLOCK_START()
 
         std::priority_queue<HeuristicState> queue;
         std::unordered_set<Board> visited;
@@ -69,9 +68,7 @@ namespace AI {
         } else {
             m_Solution.visited = (int)visited.size();
 
-            const auto endTimepoint = std::chrono::steady_clock::now();
-            const auto elapsedTime = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch()
-                                      - std::chrono::time_point_cast<std::chrono::microseconds>(startTime).time_since_epoch();
+            CLOCK_STOP()
 
             CONSOLE_INFO("Solution found! A* took {} us", elapsedTime.count());
             CONSOLE_INFO("Solution moves: {}", Solver::GetMoveSetString(m_Solution.moves));

@@ -11,8 +11,7 @@ namespace AI {
         std::vector<MoveDirection> moveSet = Solver::GetMoveSet(m_SearchOrder);
 
         SOLVED_CHECK()
-
-        auto startTime = std::chrono::steady_clock::now();
+        CLOCK_START()
 
         bool solutionFound = false;
 
@@ -57,9 +56,7 @@ namespace AI {
             CONSOLE_ERROR("Solution not found!!"); return;
         }
 
-        const auto endTimepoint = std::chrono::steady_clock::now();
-        const auto elapsedTime = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch()
-                                  - std::chrono::time_point_cast<std::chrono::microseconds>(startTime).time_since_epoch();
+        CLOCK_STOP()
 
         CONSOLE_INFO("Solution found! IDFS took {} us", elapsedTime.count());
         CONSOLE_INFO("Solution moves: {}", Solver::GetMoveSetString(m_Solution.moves));

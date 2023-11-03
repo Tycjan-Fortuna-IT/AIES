@@ -20,6 +20,8 @@
 #define _HBFS 3
 #define _ASTAR 4
 #define _SMASTAR 5
+#define IS_BRUTE_FORCE(x) (x == _BFS || x == _DFS || x == _IDFS)
+#define IS_HEURESTIC(x) (x == _HBFS || x == _ASTAR || x == _SMASTAR)
 
 namespace AI {
     ControlPanel::ControlPanel(Board*& board, const char* name, const char8_t* icon)
@@ -72,7 +74,7 @@ namespace AI {
             } else if (m_Solution.empty()) {
                 if (Core::UI::PropertyDropdown("Select search strategy", strategies, (int32_t)std::size(strategies), &strategy)) {}
 
-                if (strategy == _BFS || strategy == _DFS || strategy == _IDFS) {
+                if (IS_BRUTE_FORCE(strategy)) {
                     ImGui::Checkbox("Random order", &randomize);
 
                     if (!randomize) {
@@ -83,7 +85,7 @@ namespace AI {
                         ImGui::Spacing();
                         ImGui::InputInt("Max depth", &maxDepth);
                     }
-                } else if (strategy == _HBFS || strategy == _ASTAR || strategy == _SMASTAR) {
+                } else if (IS_HEURESTIC(strategy)) {
                     if (Core::UI::PropertyDropdown("Select heurestic", heurestics, (int32_t)std::size(heurestics), &heurestic)) {}
 
                     if (strategy == _SMASTAR) {
@@ -96,8 +98,11 @@ namespace AI {
                     Core::ScopedColor ButtonColor(ImGuiCol_Button, Core::Color::DarkBlue);
 
                     if (ImGui::Button("Solve")) {
-                        CONSOLE_INFO("Solving the board using {} with search order {} (for brute force), and heurestic {} (for informed)",
-                            strategies[strategy], heurestics[heurestic], randomize ? "Random" : orders[order]);
+                        if (IS_BRUTE_FORCE(strategy)) {
+                            CONSOLE_INFO("Solving the board using {} with search order: {}", strategies[strategy], randomize ? "Random" : orders[order]);
+                        } else {
+                            CONSOLE_INFO("Solving the board using {} with heurestic: {}", strategies[strategy], heurestics[heurestic]);
+                        }
 
                         if (Solver::IsBoardSolvable(m_Board)) {
                             Solver* solver = nullptr;
@@ -109,6 +114,7 @@ namespace AI {
                                 case _HBFS: solver = new BestFirstSearch(m_Board); break;
                                 case _ASTAR: solver = new AStar(m_Board); break;
                                 case _SMASTAR: solver = new SMAStar(m_Board, memoryLimit); break;
+                                default: CONSOLE_ERROR("Invalid strategy!"); break;
                             }
 
                             solver->SetSearchOrder(orders[order]);

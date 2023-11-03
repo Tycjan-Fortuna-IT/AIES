@@ -8,6 +8,8 @@
 
 #define SOLVED_CHECK() if (m_Board->IsSolved()) { CONSOLE_WARN("Puzzle is already solved!"); return; }
 #define SHUFFLE_IF(cond, vec) if (cond) { m_RandomEngine.seed(static_cast<unsigned int>(std::chrono::steady_clock::now().time_since_epoch().count())); std::shuffle((vec).begin(), (vec).end(), m_RandomEngine); }
+#define CLOCK_START() auto startTime = std::chrono::steady_clock::now();
+#define CLOCK_STOP() const auto endTimepoint = std::chrono::steady_clock::now(); const auto elapsedTime = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch() - std::chrono::time_point_cast<std::chrono::microseconds>(startTime).time_since_epoch();
 
 namespace AI {
     struct Solution final {

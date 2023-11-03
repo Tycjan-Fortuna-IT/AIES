@@ -26,9 +26,8 @@ namespace AI {
         std::queue<BFSState> q;
         std::unordered_set<Board> visited;
 
-        auto startTime = std::chrono::steady_clock::now();
-
         SOLVED_CHECK()
+        CLOCK_START()
 
         q.push({ *m_Board, {} });
 
@@ -64,9 +63,7 @@ namespace AI {
 
         m_Solution.visited = (int)visited.size();
 
-        const auto endTimepoint = std::chrono::steady_clock::now();
-        const auto elapsedTime = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch()
-            - std::chrono::time_point_cast<std::chrono::microseconds>(startTime).time_since_epoch();
+        CLOCK_STOP()
 
         CONSOLE_INFO("Solution found! BFS took {} us", elapsedTime.count());
         CONSOLE_INFO("Solution moves: {}", Solver::GetMoveSetString(m_Solution.moves));
