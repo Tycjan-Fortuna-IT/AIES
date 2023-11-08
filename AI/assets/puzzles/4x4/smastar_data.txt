@@ -1,0 +1,48 @@
+4x4 05.txt SMA* AVG from:30iterations, memory limit: 10000
+Heurestic, Duration, Visited, Processed, MaxDepth
+Manhattan, 90.6667, 15, 93, 77.5
+Hamming, 117.4, 15, 273, 227.5
+Chebyshev, 76.8667, 15, 453, 377.5
+Euclidean, 71.2, 15, 633, 527.5
+
+
+4x4 06.txt SMA* AVG from:30iterations, memory limit: 10000
+Heurestic, Duration, Visited, Processed, MaxDepth
+Manhattan, 135.5, 15, 108.5, 93
+Hamming, 289.833, 15, 318.5, 273
+Chebyshev, 108.1, 15, 528.5, 453
+Euclidean, 365.433, 15, 738.5, 633
+
+
+4x4 07.txt SMA* AVG from:30iterations, memory limit: 10000
+Heurestic, Duration, Visited, Processed, MaxDepth
+Manhattan, 107.4, 17, 124, 108.5
+Hamming, 109.533, 17, 364, 318.5
+Chebyshev, 114.467, 17, 604, 528.5
+Euclidean, 102.8, 17, 844, 738.5
+
+
+4x4 08.txt SMA* AVG from:30iterations, memory limit: 10000
+Heurestic, Duration, Visited, Processed, MaxDepth
+Manhattan, 138.067, 20, 139.5, 124
+Hamming, 139.033, 20, 409.5, 364
+Chebyshev, 141.2, 20, 679.5, 604
+Euclidean, 159.633, 20, 949.5, 844
+
+
+4x4 09.txt SMA* AVG from:30iterations, memory limit: 10000
+Heurestic, Duration, Visited, Processed, MaxDepth
+Manhattan, 155.033, 22, 155, 139.5
+Hamming, 160.367, 22, 455, 409.5
+Chebyshev, 169.333, 22, 755, 679.5
+Euclidean, 190.2, 22, 1055, 949.5
+
+
+4x4 10.txt SMA* AVG from:30iterations, memory limit: 10000
+Heurestic, Duration, Visited, Processed, MaxDepth
+Manhattan, 129.6, 24, 170.5, 155
+Hamming, 144.733, 24, 500.5, 455
+Chebyshev, 169.633, 24, 830.5, 755
+Euclidean, 163.333, 24, 1160.5, 1055
+
+

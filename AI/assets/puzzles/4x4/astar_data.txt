@@ -1,0 +1,48 @@
+4x4 05.txt A* AVG from:30iterations
+Heurestic, Duration, Visited, Processed, MaxDepth
+Manhattan, 92.5333, 15, 93, 77.5
+Hamming, 102.9, 15, 273, 227.5
+Chebyshev, 99.2333, 15, 453, 377.5
+Euclidean, 109.967, 15, 633, 527.5
+
+
+4x4 06.txt A* AVG from:30iterations
+Heurestic, Duration, Visited, Processed, MaxDepth
+Manhattan, 92.3333, 15, 108.5, 93
+Hamming, 99.3667, 15, 318.5, 273
+Chebyshev, 101.767, 15, 528.5, 453
+Euclidean, 103.267, 15, 738.5, 633
+
+
+4x4 07.txt A* AVG from:30iterations
+Heurestic, Duration, Visited, Processed, MaxDepth
+Manhattan, 98.2667, 17, 124, 108.5
+Hamming, 75.4667, 17, 364, 318.5
+Chebyshev, 100.9, 17, 604, 528.5
+Euclidean, 110.667, 17, 844, 738.5
+
+
+4x4 08.txt A* AVG from:30iterations
+Heurestic, Duration, Visited, Processed, MaxDepth
+Manhattan, 117.433, 20, 139.5, 124
+Hamming, 125.9, 20, 409.5, 364
+Chebyshev, 127.4, 20, 679.5, 604
+Euclidean, 141.967, 20, 949.5, 844
+
+
+4x4 09.txt A* AVG from:30iterations
+Heurestic, Duration, Visited, Processed, MaxDepth
+Manhattan, 145.867, 22, 155, 139.5
+Hamming, 157.4, 22, 455, 409.5
+Chebyshev, 161.267, 22, 755, 679.5
+Euclidean, 159.733, 22, 1055, 949.5
+
+
+4x4 10.txt A* AVG from:30iterations
+Heurestic, Duration, Visited, Processed, MaxDepth
+Manhattan, 156.867, 24, 170.5, 155
+Hamming, 154.667, 24, 500.5, 455
+Chebyshev, 186.133, 24, 830.5, 755
+Euclidean, 156.767, 24, 1160.5, 1055
+
+

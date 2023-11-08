@@ -1,0 +1,48 @@
+4x4 05.txt Best first search AVG from:30iterations
+Heurestic, Duration, Visited, Processed, MaxDepth
+Manhattan, 48.2333, 15, 93, 77.5
+Hamming, 54.8667, 15, 273, 227.5
+Chebyshev, 58.6333, 15, 453, 377.5
+Euclidean, 105.4, 15, 633, 527.5
+
+
+4x4 06.txt Best first search AVG from:30iterations
+Heurestic, Duration, Visited, Processed, MaxDepth
+Manhattan, 85.1333, 15, 108.5, 93
+Hamming, 66.2, 15, 318.5, 273
+Chebyshev, 74.2333, 15, 528.5, 453
+Euclidean, 112.267, 15, 738.5, 633
+
+
+4x4 07.txt Best first search AVG from:30iterations 
+Heurestic, Duration, Visited, Processed, MaxDepth
+Manhattan, 111.8, 17, 124, 108.5
+Hamming, 125.833, 17, 364, 318.5
+Chebyshev, 117.867, 17, 604, 528.5
+Euclidean, 157.933, 17, 844, 738.5
+
+
+4x4 08.txt Best first search AVG from:30iterations 
+Heurestic, Duration, Visited, Processed, MaxDepth
+Manhattan, 122.167, 20, 139.5, 124
+Hamming, 125.5, 20, 409.5, 364
+Chebyshev, 123.067, 20, 679.5, 604
+Euclidean, 140.533, 20, 949.5, 844
+
+
+4x4 09.txt Best first search AVG from:30iterations 
+Heurestic, Duration, Visited, Processed, MaxDepth
+Manhattan, 144.3, 22, 155, 139.5
+Hamming, 149.067, 22, 455, 409.5
+Chebyshev, 149.733, 22, 755, 679.5
+Euclidean, 180.633, 22, 1055, 949.5
+
+
+4x4 10.txt Best first search AVG from:30iterations 
+Heurestic, Duration, Visited, Processed, MaxDepth
+Manhattan, 151.533, 24, 170.5, 155
+Hamming, 159.633, 24, 500.5, 455
+Chebyshev, 166.533, 24, 830.5, 755
+Euclidean, 180.867, 24, 1160.5, 1055
+
+
