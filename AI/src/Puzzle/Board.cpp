@@ -15,6 +15,17 @@ namespace AI {
         }
     }
 
+    Board::Board(const Board& other) {
+        m_Width = other.GetWidth();
+        m_Height = other.GetHeight();
+
+        m_Puzzles = std::vector<std::vector<Puzzle>>(m_Width, std::vector<Puzzle>(m_Height));
+
+        FOR_EACH_PUZZLE {
+            m_Puzzles[x][y] = other.GetPuzzle(x, y);
+        }
+    }
+
     Puzzle Board::GetEmptyPuzzle() const {
         FOR_EACH_PUZZLE {
             if (m_Puzzles[x][y].IsEmpty())

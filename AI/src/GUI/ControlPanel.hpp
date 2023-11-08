@@ -20,6 +20,7 @@ namespace AI {
     private:
 
         Board*& m_Board;
+        Board* m_BoardCopy;
 
         std::vector<MoveDirection> m_Solution{};
 

@@ -34,12 +34,13 @@ namespace AI {
             Core::ScopedStyle FramePadding(ImGuiStyleVar_FramePadding, ImVec2(4.0f, 2.0f));
 
             static const char* strategies[] = { "BFS", "DFS", "IDFS", "BestFirstSearch", "A*", "SMA*"};
-            static const char* orders[] = { // All permutations of "LRUD"
-                "LRUD", "LURD", "LUDR", "RLUD", "RULD", "RUDL",
+            static const char* orders[] = { // All permutations of "LRUD", 4! -> 24
+                "LRUD", "LRDU", "LURD", "LUDR", "LDRU", "LDUR",
+                "RLUD", "RLDU", "RULD", "RUDL", "RDLU", "RDUL",
                 "ULRD", "ULDR", "URLD", "URDL", "UDLR", "UDRL",
-                "RLDU", "RDLU", "RULD", "RUDL", "RDUL", "RDLU",
-                "DRLU", "DRUL", "DLRU", "DLUR", "DURL", "DULR"
+                "DLRU", "DLUR", "DRLU", "DRUL", "DULR", "DURL"
             };
+
             static const char* heurestics[] = { "Zero", "Manhattan", "Hamming", "Chebyshev", "Euclidean" };
 
             static int32_t index = -2;
@@ -120,6 +121,8 @@ namespace AI {
                             solver->SetSearchOrder(orders[order]);
                             solver->SetHeurestic(heurestics[heurestic]);
 
+                            m_BoardCopy = new Board(*m_Board);
+
                             solver->Solve();
 
                             m_Solution = solver->GetSolution().moves;
@@ -136,6 +139,14 @@ namespace AI {
             if (!m_Solution.empty()) {
                 ImGui::Separator();
                 ImGui::Spacing();
+
+                if (ImGui::Button("Reload")) {
+                    delete m_Board;
+                    m_Board = new Board(*m_BoardCopy);
+                    m_Solution.clear();
+                    index = -2;
+                    CONSOLE_WARN("Board has been reloaded!");
+                }
 
                 if (ImGui::Button("Copy to clipboard")) {
                     std::string solution;

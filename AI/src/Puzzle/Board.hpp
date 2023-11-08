@@ -33,6 +33,7 @@ namespace AI {
     public:
 
         Board(uint32_t width, uint32_t height);
+        Board(const Board& other);
         ~Board() = default;
 
         uint32_t GetWidth() const { return m_Width; }

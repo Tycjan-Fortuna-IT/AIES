@@ -17,7 +17,15 @@ namespace AI {
         int visited;
         int processed;
         int maxRecursion;
-        double duration;
+        long long duration;
+
+        void Clear() {
+            moves.clear();
+            visited = 0;
+            processed = 0;
+            maxRecursion = 0;
+            duration = 0.0;
+        }
     };
 
     class Solver {

@@ -71,6 +71,8 @@ namespace AI {
 
         CLOCK_STOP()
 
+        m_Solution.duration = elapsedTime.count();
+
         CONSOLE_INFO("Solution found! Best First Search took {} us", elapsedTime.count());
         CONSOLE_INFO("Solution moves count: {}", m_Solution.moves.size());
         CONSOLE_INFO("Solution moves: {}", Solver::GetMoveSetString(m_Solution.moves));

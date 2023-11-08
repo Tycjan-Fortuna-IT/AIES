@@ -2,7 +2,7 @@
 
 #include "Puzzle/Board.hpp"
 
-#define MAX_STATES 50000
+#define MAX_STATES 500000
 #define GET_HEURESTIC_FN(fn, type) std::function<int(const Board&)> ##fn; \
     if (type == "Zero") { \
         fn = [](const Board& board) -> int { return HeuresticCalculationWizard::GetZeroHeuresticEvaluation(board); }; \

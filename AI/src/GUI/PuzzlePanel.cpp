@@ -6,6 +6,7 @@
 #include "imgui_internal.h"
 #include "Engine/Core/Debug/Logger.hpp"
 #include "Platform/GUI/Core/UI/Color.hpp"
+#include "Platform/GUI/Core/UI/Theme.hpp"
 #include "Platform/GUI/Core/UI/UI.hpp"
 
 namespace AI {
@@ -18,14 +19,14 @@ namespace AI {
         if (m_Board) {
             Core::ScopedStyle FramePadding(ImGuiStyleVar_FramePadding, ImVec2(4.0f, 2.0f));
 
-            static const uint32_t w = m_Board->GetWidth();
-            static const uint32_t h = m_Board->GetHeight();
+            const uint32_t w = m_Board->GetWidth();
+            const uint32_t h = m_Board->GetHeight();
 
             static const float windowWidth = ImGui::GetWindowWidth();
             static const float windowHeight = ImGui::GetWindowHeight();
-            static const float size = std::min(windowHeight / h, 600.0f / w); // puzzle size
-            static const float margin = 15.0f;
+            static const float margin = 20.0f;
 
+            const float size = std::min(windowHeight / h, 600.0f / w);
             const float startX = (windowWidth - (w * size + margin)) / 2.0f;
 
             FOR_EACH_PUZZLE_W_H(w, h) {
@@ -43,6 +44,7 @@ namespace AI {
                 {
                     Core::ScopedStyle FrameBorderSize(ImGuiStyleVar_FrameBorderSize, 4.0f);
                     Core::ScopedColor BorderColor(ImGuiCol_Border, Core::Color::White);
+                    Core::ScopedFont BoldFont(Core::Theme::BoldFont);
 
                     static bool opened = false;
 

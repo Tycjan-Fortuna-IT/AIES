@@ -21,6 +21,8 @@ namespace AI {
         : AI::Solver(board), m_Randomize(randomize) {}
 
     void BFS::Solve() {
+        m_Solution.Clear();
+
         std::vector<MoveDirection> moveSet = Solver::GetMoveSet(m_SearchOrder);
 
         std::queue<BFSState> q;
@@ -61,9 +63,10 @@ namespace AI {
             }
         }
 
-        m_Solution.visited = (int)visited.size();
-
         CLOCK_STOP()
+
+        m_Solution.visited = (int)visited.size();
+        m_Solution.duration = elapsedTime.count();
 
         CONSOLE_INFO("Solution found! BFS took {} us", elapsedTime.count());
         CONSOLE_INFO("Solution moves count: {}", m_Solution.moves.size());

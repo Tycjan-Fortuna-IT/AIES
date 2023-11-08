@@ -15,9 +15,9 @@ namespace AI {
 
         bool solutionFound = false;
 
-        for (; m_MaxDepth <= 20; m_MaxDepth++) {
+        for (int i = 0; i < m_MaxDepth; i++) {
             std::function<bool(Board*, int)> DFS = [&](Board* board, int depth) {
-                if (depth > m_MaxDepth)
+                if (depth > i)
                     return false;
 
                 if (depth > m_Solution.maxRecursion)
@@ -57,6 +57,8 @@ namespace AI {
         }
 
         CLOCK_STOP()
+
+        m_Solution.duration = elapsedTime.count();
 
         CONSOLE_INFO("Solution found! IDFS took {} us", elapsedTime.count());
         CONSOLE_INFO("Solution moves count: {}", m_Solution.moves.size());
