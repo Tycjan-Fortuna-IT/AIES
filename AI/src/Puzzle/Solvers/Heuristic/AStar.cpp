@@ -1,4 +1,4 @@
-#include "Astar.hpp"
+#include "AStar.hpp"
 
 #include <queue>
 #include <functional>

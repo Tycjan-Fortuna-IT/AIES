@@ -3,17 +3,17 @@
 #include "Puzzle/Board.hpp"
 
 #define MAX_STATES 500000
-#define GET_HEURESTIC_FN(fn, type) std::function<int(const Board&)> ##fn; \
+#define GET_HEURESTIC_FN(fn, type) std::function<int(const Board&)> heuristicFn; \
     if (type == "Zero") { \
-        fn = [](const Board& board) -> int { return HeuresticCalculationWizard::GetZeroHeuresticEvaluation(board); }; \
+        heuristicFn = [](const Board& board) -> int { return HeuresticCalculationWizard::GetZeroHeuresticEvaluation(board); }; \
     } else if (type == "Manhattan") { \
-        fn = [](const Board& board) -> int { return HeuresticCalculationWizard::GetManhattanHeuresticEvaluation(board); }; \
+        heuristicFn = [](const Board& board) -> int { return HeuresticCalculationWizard::GetManhattanHeuresticEvaluation(board); }; \
     } else if (type == "Hamming") { \
-        fn = [](const Board& board) -> int { return HeuresticCalculationWizard::GetHammingHeuresticEvaluation(board); }; \
+        heuristicFn = [](const Board& board) -> int { return HeuresticCalculationWizard::GetHammingHeuresticEvaluation(board); }; \
     } else if (type == "Chebyshev") { \
-        fn = [](const Board& board) -> int { return HeuresticCalculationWizard::GetChebyshevHeuresticEvaluation(board); }; \
+        heuristicFn = [](const Board& board) -> int { return HeuresticCalculationWizard::GetChebyshevHeuresticEvaluation(board); }; \
     } else if (type == "Euclidean") { \
-        fn = [](const Board& board) -> int { return HeuresticCalculationWizard::GetEuclideanHeuresticEvaluation(board); }; \
+        heuristicFn = [](const Board& board) -> int { return HeuresticCalculationWizard::GetEuclideanHeuresticEvaluation(board); }; \
     } else { \
         APP_CRITICAL("Unknown heurestic function: {}", type); \
     }

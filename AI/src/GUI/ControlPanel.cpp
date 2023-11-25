@@ -10,7 +10,7 @@
 #include "Puzzle/Solvers/BruteForce/BFS.hpp"
 #include "Puzzle/Solvers/BruteForce/DFS.hpp"
 #include "Puzzle/Solvers/BruteForce/IDFS.hpp"
-#include "Puzzle/Solvers/Heuristic/Astar.hpp"
+#include "Puzzle/Solvers/Heuristic/AStar.hpp"
 #include "Puzzle/Solvers/Heuristic/BestFirstSearch.hpp"
 #include "Puzzle/Solvers/Heuristic/SMAStar.hpp"
 
